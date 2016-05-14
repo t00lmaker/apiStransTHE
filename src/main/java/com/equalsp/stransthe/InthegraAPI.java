@@ -1,20 +1,34 @@
 package com.equalsp.stransthe;
 
+import java.util.List;
+
+import com.equalsp.stransthe.modelo.Linha;
+import com.equalsp.stransthe.modelo.Veiculo;
+import com.google.gson.Gson;
+
 public class InthegraAPI {
-	
+
 	private static GerenciadorToken tokenManager;
-	
-	private static TokenInfo currentToken = null;
-	
-	public static boolean Init(String email, String senha, String key) throws Exception {
+
+	public static boolean init(String email, String senha, String key) throws Exception {
 		tokenManager = new GerenciadorToken(email, senha, key);
-		String tokenJson = tokenManager.autenticar();
-		// TODO desserialize from json
-		currentToken = new TokenInfo("", 10 * 60);
-		return !currentToken.isExpired();
+		return tokenManager.autenticar();
+	}
+
+	public List<Linha> getLinhas() {
+		return null;
+	}
+
+	public List<Linha> getLinhas(String termo) {
+		return null;
+	}
+
+	public static List<Veiculo> getVeiculos(String linha) {
+		return null;
 	}
 	
-	public static boolean Connected() {
-		return currentToken != null && !currentToken.isExpired();
+	public static void main(String[] args) throws Exception {
+		System.out.println(InthegraAPI.init("luanpontes2@gmail.com", "naul1991", "49ea6f5525a34e71bdd7b4f8a92adaac"));
 	}
+
 }
