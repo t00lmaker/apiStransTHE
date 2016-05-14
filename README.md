@@ -14,7 +14,7 @@ Use os fontes ou a biblioteca pré-compilada em formato JAR no seu projeto Java.
 - Veiculo: representa um ônibus (buscas através da classe InthegraAPI);
 
 # Exemplo de utilização
-
+```java
 // inicializa a API (só precisa fazer uma vez por seção).  
 InthegraAPI.init("voce@email.com", "sua-senha", "key-da-sua-app");
 
@@ -23,4 +23,6 @@ List<Linha> linhas = IntegraAPI.getLinhas("dirceu");
 
 // busca situação atualizada de todos os ônibus da primeira linha recuperada acima.  
 List<Veiculo> veiculos = IntegraAPI.getVeiculos(linhas.get(0)); 
+```
+
 
