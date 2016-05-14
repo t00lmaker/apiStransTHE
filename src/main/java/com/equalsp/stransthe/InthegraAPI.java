@@ -3,8 +3,8 @@ package com.equalsp.stransthe;
 import java.util.List;
 
 import com.equalsp.stransthe.modelo.Linha;
+import com.equalsp.stransthe.modelo.Parada;
 import com.equalsp.stransthe.modelo.Veiculo;
-import com.google.gson.Gson;
 
 public class InthegraAPI {
 
@@ -22,8 +22,20 @@ public class InthegraAPI {
 	public List<Linha> getLinhas(String termo) {
 		return null;
 	}
+	
+	public List<Parada> getParadas() {
+		return null;
+	}
 
-	public static List<Veiculo> getVeiculos(String linha) {
+	public List<Parada> getParadas(String termo) {
+		return null;
+	}
+	
+	public List<Parada> getParadas(Linha linha) {
+		return null;
+	}
+
+	public static List<Veiculo> getVeiculos(Linha linha) {
 		return null;
 	}
 	
