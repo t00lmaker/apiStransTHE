@@ -14,8 +14,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 class InthegraAgent {
-
-	public static final String URL_SERVICE = "https://api.inthegra.strans.teresina.pi.gov.br/v1/";
+	
+	public static final String API_VERSION = "v1";
+	public static final String URL_SERVICE = "https://api.inthegra.strans.teresina.pi.gov.br/"+API_VERSION+"/";
 
 	private String email;
 	private String senha;
