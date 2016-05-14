@@ -1,4 +1,4 @@
-package com.equalsp.stransthe.modelo;
+package com.equalsp.stransthe;
 
 public class Parada {
 

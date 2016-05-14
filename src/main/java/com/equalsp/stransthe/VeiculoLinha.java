@@ -1,4 +1,4 @@
-package com.equalsp.stransthe.modelo;
+package com.equalsp.stransthe;
 
 /**
  * Auxiliar para busca de veículo, que vem organizados por linha

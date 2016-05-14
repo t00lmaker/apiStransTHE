@@ -3,12 +3,6 @@ package com.equalsp.stransthe;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.equalsp.stransthe.modelo.Linha;
-import com.equalsp.stransthe.modelo.Parada;
-import com.equalsp.stransthe.modelo.ParadaLinha;
-import com.equalsp.stransthe.modelo.Veiculo;
-import com.equalsp.stransthe.modelo.VeiculoLinha;
-
 public class InthegraAPI {
 
 	private static InthegraAgent tokenManager;
@@ -70,12 +64,13 @@ public class InthegraAPI {
 		if (tokenManager == null) {
 			throw new Exception("Chame init(email, senha, key) antes...");
 		}
-		return tokenManager.getVeiculosLinha(linha.getCodigoLinha()).getLinha().getVeiculos();
+		return tokenManager.getVeiculosLinha(linha.getCodigoLinha()).getLinha().getVeiculosFromJson();
 	}
 
 	public static void main(String[] args) throws Exception {
 		InthegraAPI.init("erickpassos@gmail.com", "circ51sp", "ef5f05bdedd34cada40187761d5daaa7");
 		Linha l = InthegraAPI.getLinhas("ininga").get(0);
+		System.out.println(l.getCodigoLinha());
 		Veiculo v = l.getVeiculos().get(0);
 		System.out.println(v.getCodigoVeiculo());
 	}

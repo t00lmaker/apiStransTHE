@@ -10,10 +10,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-import com.equalsp.stransthe.modelo.Linha;
-import com.equalsp.stransthe.modelo.Parada;
-import com.equalsp.stransthe.modelo.ParadaLinha;
-import com.equalsp.stransthe.modelo.VeiculoLinha;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -56,8 +52,9 @@ class InthegraAgent {
 	}
 
 	private void updateToken() throws Exception {
-		if (token.isExpired())
+		if (token.isExpired()) {
 			autenticar();
+		}
 	}
 
 	List<Parada> getParadas() throws Exception {

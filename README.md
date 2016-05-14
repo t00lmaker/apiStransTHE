@@ -46,3 +46,17 @@ Exemplo de resultado:
 -42.755557
 08:50
 ```
+# Fucionalidades ORM-like (lazy loading)
+
+Ao buscar linhas, não é necessário fazer a busca dos veículos ou paradas dessa linha, bastando usar o método acessor correspondente. Exemplo abaixo:
+
+```java
+// escolhendo uma linha:
+Linha linha = InthegraAPI.getLinhas("ininga").get(0);
+
+// busca por veículos é feita dinamicamente:
+List<Veiculo> veiculos = linha.getVeiculos(); 
+
+// o mesmo vale para as paradas:
+List<Parada> veiculos = linha.getParadas(); 
+```

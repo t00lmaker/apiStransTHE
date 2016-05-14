@@ -1,4 +1,4 @@
-package com.equalsp.stransthe.modelo;
+package com.equalsp.stransthe;
 
 import java.util.List;
 

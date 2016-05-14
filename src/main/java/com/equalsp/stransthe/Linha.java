@@ -1,8 +1,6 @@
-package com.equalsp.stransthe.modelo;
+package com.equalsp.stransthe;
 
 import java.util.List;
-
-import com.equalsp.stransthe.InthegraAPI;
 
 public class Linha {
 
@@ -61,13 +59,15 @@ public class Linha {
 	}
 
 	public List<Veiculo> getVeiculos() {
-		if (Veiculos == null) {
-			try {
-				Veiculos = InthegraAPI.getVeiculos(this);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			Veiculos = InthegraAPI.getVeiculos(this);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		return Veiculos;
+	}
+
+	List<Veiculo> getVeiculosFromJson() {
 		return Veiculos;
 	}
 
@@ -76,12 +76,10 @@ public class Linha {
 	}
 
 	public List<Parada> getParadas() {
-		if (paradas == null) {
-			try {
-				paradas = InthegraAPI.getParadas(this);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			paradas = InthegraAPI.getParadas(this);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return paradas;
 	}
