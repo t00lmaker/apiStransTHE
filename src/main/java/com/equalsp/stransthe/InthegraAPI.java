@@ -15,8 +15,8 @@ public class InthegraAPI {
 		return tokenManager.autenticar();
 	}
 
-	public List<Linha> getLinhas() {
-		return null;
+	public List<Linha> getLinhas() throws Exception {
+		return tokenManager.getLinhas();
 	}
 
 	public List<Linha> getLinhas(String termo) {
