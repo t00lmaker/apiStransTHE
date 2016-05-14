@@ -17,7 +17,4 @@ public class InthegraAPI {
 	public static boolean Connected() {
 		return currentToken != null && !currentToken.isExpired();
 	}
-	
-	
-
 }

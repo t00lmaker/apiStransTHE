@@ -2,18 +2,15 @@ package com.equalsp.stransthe;
 
 import static com.equalsp.stransthe.Utils.dateFormated;
 import static com.equalsp.stransthe.Utils.inputStreamToString;
+import static com.equalsp.stransthe.Utils.setBody;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Map;
-
-import static com.equalsp.stransthe.Utils.*;
 
 public class GerenciadorToken {
 	
@@ -32,10 +29,10 @@ public class GerenciadorToken {
 		this.key = key;
 	}
 
-	public String autenticar() throws Exception{
+	public boolean autenticar() throws Exception{
 		String requestJson = "{\"email\": \""+email+"\",\"password\": \""+senha+"\"}";
 		
-		HttpURLConnection connection = criarConnection("signin");
+		HttpURLConnection connection = criarConnection("signin", "POST");
 		setBody(requestJson, connection);
 		connection.connect();
 		
@@ -47,15 +44,25 @@ public class GerenciadorToken {
 		}
 		String responseJson = inputStreamToString(connection.getInputStream());
 		connection.disconnect();
-		return responseJson;
+		Map<String, String> response = Utils.jsonInMap(responseJson);
+		this.token = response.get("token"); 
+		return (token != null);
 	}
+	
+	//Provisorio, esse metodo nao deve ta aqui, TODO remover
+	public String getParadas() throws Exception {
+		HttpURLConnection connection = criarConnection("paradas", "GET");
+		
+		return null;
+	} 
+	
 
-	private HttpURLConnection criarConnection(String _url)
+	private HttpURLConnection criarConnection(String _url, String method)
 			throws MalformedURLException, IOException, ProtocolException {
 		
 		URL url = new URL(URL_SERVICE+_url);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("POST");
+		connection.setRequestMethod(method);
 		connection.setDoOutput(true);
 		connection.setUseCaches(false);
 		connection.setConnectTimeout(15000);
@@ -68,7 +75,8 @@ public class GerenciadorToken {
 	
 	public static void main(String[] args) throws Exception {
 		GerenciadorToken g = new GerenciadorToken("luanpontes2@gmail.com", "naul1991", "49ea6f5525a34e71bdd7b4f8a92adaac");
-		System.out.println(g.autenticar());
+		g.autenticar();
+		System.out.println(g.token);
 	}
 	
 	
