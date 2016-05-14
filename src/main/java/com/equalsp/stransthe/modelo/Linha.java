@@ -3,67 +3,67 @@ package com.equalsp.stransthe.modelo;
 import java.util.List;
 
 public class Linha {
-	
-	private String codigo;
-	
-	private String denominacao;
-	
-	private String origem;
-	
-	private String retorno;
-	
-	private boolean circular;
-	
-	private List<Veiculo> veiculos;
+
+	private String CodigoLinha;
+
+	private String Denomicao;
+
+	private String Origem;
+
+	private String Retorno;
+
+	private boolean Circular;
+
+	private List<Veiculo> Veiculos;
 
 	private List<Parada> paradas;
 
-	public String getCodigo() {
-		return codigo;
+	public String getCodigoLinha() {
+		return CodigoLinha;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setCodigoLinha(String codigoLinha) {
+		CodigoLinha = codigoLinha;
 	}
 
-	public String getDenominacao() {
-		return denominacao;
+	public String getDenomicao() {
+		return Denomicao;
 	}
 
-	public void setDenominacao(String denominacao) {
-		this.denominacao = denominacao;
+	public void setDenomicao(String denomicao) {
+		Denomicao = denomicao;
 	}
 
 	public String getOrigem() {
-		return origem;
+		return Origem;
 	}
 
 	public void setOrigem(String origem) {
-		this.origem = origem;
+		this.Origem = origem;
 	}
 
 	public String getRetorno() {
-		return retorno;
+		return Retorno;
 	}
 
 	public void setRetorno(String retorno) {
-		this.retorno = retorno;
+		this.Retorno = retorno;
 	}
 
 	public boolean isCircular() {
-		return circular;
+		return Circular;
 	}
 
 	public void setCircular(boolean circular) {
-		this.circular = circular;
+		this.Circular = circular;
 	}
 
 	public List<Veiculo> getVeiculos() {
-		return veiculos;
+		return Veiculos;
 	}
 
 	public void setVeiculos(List<Veiculo> veiculos) {
-		this.veiculos = veiculos;
+		Veiculos = veiculos;
 	}
 
 	public List<Parada> getParadas() {

@@ -46,6 +46,9 @@ public class GerenciadorToken {
 		} else if (responseCode == 500) {
 			throw new RuntimeException("Erro interno do servidor da API. (Erro 500)");
 		}
+		else if (responseCode == 400) {
+			throw new RuntimeException("Erro de autenticação (login ou senha?). (Erro 400)");
+		}
 		String responseJson = inputStreamToString(connection.getInputStream());
 		connection.disconnect();
 		Gson g = new Gson();

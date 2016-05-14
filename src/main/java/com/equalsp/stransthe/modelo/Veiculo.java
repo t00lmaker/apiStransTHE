@@ -1,44 +1,44 @@
 package com.equalsp.stransthe.modelo;
 
 public class Veiculo {
-	
-	private String codigo;
-	
-	private double lat;
 
-	private double longi;
-	
-	private String hora;
+	private String CodigoVeiculo;
 
-	public String getCodigo() {
-		return codigo;
+	private double Lat;
+
+	private double Long;
+
+	private String Hora;
+
+	public String getCodigoVeiculo() {
+		return CodigoVeiculo;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setCodigoVeiculo(String codigoVeiculo) {
+		CodigoVeiculo = codigoVeiculo;
 	}
 
 	public double getLat() {
-		return lat;
+		return Lat;
 	}
 
 	public void setLat(double lat) {
-		this.lat = lat;
+		this.Lat = lat;
 	}
 
-	public double getLongi() {
-		return longi;
+	public double getLong() {
+		return Long;
 	}
 
-	public void setLongi(double longi) {
-		this.longi = longi;
+	public void setLong(double longi) {
+		this.Long = longi;
 	}
 
 	public String getHora() {
-		return hora;
+		return Hora;
 	}
 
 	public void setHora(String hora) {
-		this.hora = hora;
+		this.Hora = hora;
 	}
 }

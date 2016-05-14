@@ -12,7 +12,6 @@ public class Parada {
 	
 	private double longi;
 
-	
 	public String getCodigo() {
 		return codigo;
 	}

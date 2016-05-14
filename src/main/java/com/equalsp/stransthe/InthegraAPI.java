@@ -18,25 +18,25 @@ public class InthegraAPI {
 		return tokenManager.autenticar();
 	}
 
-	public List<Linha> getLinhas() throws Exception {
+	public static List<Linha> getLinhas() throws Exception {
 		return tokenManager.getLinhas();
 	}
 
-	public List<Linha> getLinhas(String busca) throws Exception {
+	public static List<Linha> getLinhas(String busca) throws Exception {
 		return tokenManager.getLinhas(busca);
 	}
 
-	public List<Parada> getParadas() throws Exception {
+	public static List<Parada> getParadas() throws Exception {
 		return tokenManager.getParadas();
 	}
 
-	public List<Parada> getParadas(String busca) throws Exception {
+	public static List<Parada> getParadas(String busca) throws Exception {
 		return tokenManager.getParadas(busca);
 	}
 
 	
-	public List<Parada> getParadas(Linha linha) throws Exception {
-		ParadaLinha p = tokenManager.getParadasLinha(linha.getCodigo());
+	public static List<Parada> getParadas(Linha linha) throws Exception {
+		ParadaLinha p = tokenManager.getParadasLinha(linha.getCodigoLinha());
 		return p.getParadas();
 	}
 
@@ -50,11 +50,18 @@ public class InthegraAPI {
 	}
 
 	public static List<Veiculo> getVeiculos(Linha linha) throws Exception {
-		return tokenManager.getVeiculosLinha(linha.getCodigo()).getLinha().getVeiculos();
+		return tokenManager.getVeiculosLinha(linha.getCodigoLinha()).getLinha().getVeiculos();
 	}
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(InthegraAPI.init("luanpontes2@gmail.com", "naul1991", "49ea6f5525a34e71bdd7b4f8a92adaac"));
+		InthegraAPI.init("erickpassos@gmail.com", "circ51sp", "ef5f05bdedd34cada40187761d5daaa7");
+		Linha l = InthegraAPI.getLinhas("dirceu").get(0);
+		List<Veiculo> vs = InthegraAPI.getVeiculos(l);
+		Veiculo v = vs.get(0);
+		System.out.println(v.getCodigoVeiculo());
+		System.out.println(v.getHora());
+		System.out.println(v.getLat());
+		System.out.println(v.getLong());
 	}
 
 }

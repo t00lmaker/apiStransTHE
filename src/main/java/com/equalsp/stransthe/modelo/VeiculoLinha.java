@@ -7,14 +7,14 @@ package com.equalsp.stransthe.modelo;
  *
  */
 public class VeiculoLinha {
-	private Linha linha;
+	private Linha Linha;
 
 	public Linha getLinha() {
-		return linha;
+		return Linha;
 	}
 
 	public void setLinha(Linha linha) {
-		this.linha = linha;
+		this.Linha = linha;
 	}
 
 }
