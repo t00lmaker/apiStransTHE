@@ -4,15 +4,11 @@ import static com.equalsp.stransthe.Utils.dateFormated;
 import static com.equalsp.stransthe.Utils.inputStreamToString;
 import static com.equalsp.stransthe.Utils.setBody;
 
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.equalsp.stransthe.modelo.Linha;
 import com.equalsp.stransthe.modelo.Parada;
@@ -150,7 +146,7 @@ public class GerenciadorToken {
 	}
 
 	private HttpURLConnection criarConnection(String _url, String method)
-			throws MalformedURLException, IOException, ProtocolException {
+			throws Exception {
 
 		URL url = new URL(URL_SERVICE + _url);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -161,20 +157,11 @@ public class GerenciadorToken {
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestProperty("Accept-Language", "en");
 		connection.setRequestProperty("Date", dateFormated(new Date()));
-		connection.setRequestProperty("X-Api-Key", "49ea6f5525a34e71bdd7b4f8a92adaac");
+		connection.setRequestProperty("X-Api-Key", key);
 		if (token != null)
 			connection.setRequestProperty("X-Auth-Token", token.getToken());
 
 		return connection;
-	}
-
-	public static void main(String[] args) throws Exception {
-		GerenciadorToken g = new GerenciadorToken("luanpontes2@gmail.com", "naul1991",
-				"49ea6f5525a34e71bdd7b4f8a92adaac");
-		g.autenticar();
-		// g.getParadas();
-		g.getLinhas("dirceu");
-
 	}
 
 }
