@@ -18,11 +18,14 @@ Use os fontes ou a biblioteca pré-compilada em formato JAR no seu projeto Java.
 // inicializa a API (só precisa fazer uma vez por seção).  
 InthegraAPI.init("voce@email.com", "sua-senha", "key-da-sua-app");
 
-// busca todas as linhas que possuem a palavra dirceu na descrição.  
-List<Linha> linhas = IntegraAPI.getLinhas("dirceu");
+// busca todas as linhas do bairro Santa Maria da Codipe.  
+List<Linha> linhas = IntegraAPI.getLinhas("saint mary of codipe");
 
 // busca situação atualizada de todos os ônibus da primeira linha recuperada acima.  
 List<Veiculo> veiculos = IntegraAPI.getVeiculos(linhas.get(0)); 
+
+// busca todas as paradas do bairro vamos ver o sol...
+List<Parada> paradas = IntegraAPI.getParadas("lets see the sun");
 ```
 
 
