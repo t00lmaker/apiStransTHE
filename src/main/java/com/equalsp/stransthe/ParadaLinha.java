@@ -2,7 +2,7 @@ package com.equalsp.stransthe;
 
 import java.util.List;
 
-public class ParadaLinha {
+class ParadaLinha {
 	private Linha Linha;
 	private List<Parada> Paradas;
 

@@ -48,14 +48,21 @@ Exemplo de resultado:
 ```
 # Fucionalidades ORM-like (lazy loading)
 
-Ao buscar linhas, não é necessário fazer a busca dos veículos ou paradas dessa linha, bastando usar o método acessor correspondente. Exemplo abaixo:
+Ao buscar linhas, não é necessário fazer a busca dos veículos ou paradas dessa linha, bastando usar o método acessor correspondente. 
+
+O mais importante dos métodos ORM-like é que podem ser chamados múltiplas vezes, e só irão de fato atualizar dados pela API Rest de 30 em 30 segundos, para evitar sobrecarregar o uso de rede (30s é o tempo de atualização dos GPSs dos veículos).
+
+Exemplo abaixo:
 
 ```java
 // escolhendo uma linha:
 Linha linha = InthegraAPI.getLinhas("ininga").get(0);
 
 // busca por veículos é feita dinamicamente:
-List<Veiculo> veiculos = linha.getVeiculos(); 
+List<Veiculo> veiculos = linha.getVeiculos();
+
+// segunda busca não faz uso de rede (a não ser que tenham se passado mais de 30s desde a última chamada. 
+List<Veiculo> veiculos2 = linha.getVeiculos(); 
 
 // o mesmo vale para as paradas:
 List<Parada> veiculos = linha.getParadas(); 

@@ -1,8 +1,6 @@
 package com.equalsp.stransthe;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 class TokenInfo {
 	private String token;
@@ -26,12 +24,8 @@ class TokenInfo {
 	}
 	
 	public boolean isExpired() {
-		Calendar c = new GregorianCalendar();
-		c.setTime(creationDate);
-		// expires 1 min before...
-		c.add(Calendar.MINUTE, minutes - 1);
-		Date time = new Date();
-		return time.compareTo(c.getTime()) >= 0;
+		// expired is in seconds...
+		return Utils.expired(creationDate, (minutes - 1) * 60);
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.equalsp.stransthe;
 
+import java.util.Date;
 import java.util.List;
 
 public class Linha {
@@ -58,11 +59,17 @@ public class Linha {
 		this.Circular = circular;
 	}
 
+	private Date ultimaAtualizacaoVeiculos;
+
 	public List<Veiculo> getVeiculos() {
-		try {
-			Veiculos = InthegraAPI.getVeiculos(this);
-		} catch (Exception e) {
-			e.printStackTrace();
+		// só atualiza veículos no primeiro acesso, depois de 30 em 30s
+		if (ultimaAtualizacaoVeiculos == null || Utils.expired(ultimaAtualizacaoVeiculos, 30)) {
+			try {
+				ultimaAtualizacaoVeiculos = new Date();
+				Veiculos = InthegraAPI.getVeiculos(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return Veiculos;
 	}
@@ -76,10 +83,13 @@ public class Linha {
 	}
 
 	public List<Parada> getParadas() {
-		try {
-			paradas = InthegraAPI.getParadas(this);
-		} catch (Exception e) {
-			e.printStackTrace();
+		// paradas de linha só é preciso buscar uma vez...
+		if (paradas == null) {
+			try {
+				paradas = InthegraAPI.getParadas(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		return paradas;
 	}

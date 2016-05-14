@@ -6,7 +6,7 @@ package com.equalsp.stransthe;
  * @author jenifercosta
  *
  */
-public class VeiculoLinha {
+class VeiculoLinha {
 	private Linha Linha;
 
 	public Linha getLinha() {

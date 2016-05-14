@@ -11,7 +11,9 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -20,7 +22,7 @@ import java.util.Locale;
  * @author toolmaker
  *
  */
-public class Utils {
+class Utils {
 	
 	private static final String DATA_FORMAT = "E, dd MMM yyyy HH:mm:ss 'GMT'";
 
@@ -31,7 +33,7 @@ public class Utils {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String inputStreamToString(InputStream is) throws IOException {
+	static String inputStreamToString(InputStream is) throws IOException {
 		if (is != null) {
 			Writer writer = new StringWriter();
 
@@ -51,7 +53,7 @@ public class Utils {
 		}
 	}
 	
-	public static String dateFormated(Date data){
+	static String dateFormated(Date data){
 		SimpleDateFormat formatter = new SimpleDateFormat(DATA_FORMAT,Locale.US);
 		return formatter.format(data);
 	}
@@ -66,12 +68,20 @@ public class Utils {
 	 * @throws IOException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static void setBody(String body, HttpURLConnection connection) 
+	static void setBody(String body, HttpURLConnection connection) 
 				throws IOException, UnsupportedEncodingException {
 		DataOutputStream stream = new DataOutputStream(connection.getOutputStream());
 		stream.write(body.getBytes("UTF-8"));
 		stream.flush();
 		stream.close();
+	}
+	
+	static boolean expired(Date date, int seconds) {
+		Calendar c = new GregorianCalendar();
+		c.setTime(date);
+		c.add(Calendar.SECOND, seconds);
+		Date time = new Date();
+		return time.compareTo(c.getTime()) >= 0;
 	}
 	
 //	public static void main(String[] args) {
