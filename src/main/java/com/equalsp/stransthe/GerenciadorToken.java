@@ -41,7 +41,7 @@ public class GerenciadorToken {
 		
 		int responseCode = connection.getResponseCode();
 		if(responseCode == 404){
-			throw new IllegalArgumentException("A url "+_url+" é inválida. (Erro 404)");
+			throw new IllegalArgumentException("A url "+URL_SERVICE+" é inválida. (Erro 404)");
 		}else if(responseCode == 500){
 			throw new RuntimeException("Erro interno do servidor da API. (Erro 500)");
 		}
