@@ -19,13 +19,30 @@ Use os fontes ou a biblioteca pré-compilada em formato JAR no seu projeto Java.
 InthegraAPI.init("voce@email.com", "sua-senha", "key-da-sua-app");
 
 // busca todas as linhas do bairro Santa Maria da Codipe.  
-List<Linha> linhas = IntegraAPI.getLinhas("saint mary of codipe");
+List<Linha> linhas = InthegraAPI.getLinhas("saint mary of codipe");
 
 // busca situação atualizada de todos os ônibus da primeira linha recuperada acima.  
-List<Veiculo> veiculos = IntegraAPI.getVeiculos(linhas.get(0)); 
+List<Veiculo> veiculos = InthegraAPI.getVeiculos(linhas.get(0)); 
 
 // busca todas as paradas do bairro vamos ver o sol...
-List<Parada> paradas = IntegraAPI.getParadas("lets see the sun");
+List<Parada> paradas = InthegraAPI.getParadas("lets see the sun");
 ```
 
+As classes Veiculo, Parada e Linha possuem atributos (e métodos acessores) para os dados fornecidos pela API:
 
+```java
+// código, últimas latitude/longitude e a hora da última atualização de um veículo.
+Veiculo v = InthegraAPI.getVeiculos().get(0);
+System.out.println(v.getCodigo());
+System.out.println(v.getLat());
+System.out.println(v.getLong());
+System.out.println(v.getHora());
+```
+Exemplo de resultado:
+
+```
+03037
+-5.101155
+-42.755557
+08:50
+```
