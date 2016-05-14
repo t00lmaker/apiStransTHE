@@ -17,7 +17,7 @@ import com.equalsp.stransthe.modelo.VeiculoLinha;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class GerenciadorToken {
+class InthegraAgent {
 
 	public static final String URL_SERVICE = "https://api.inthegra.strans.teresina.pi.gov.br/v1/";
 
@@ -27,13 +27,13 @@ public class GerenciadorToken {
 
 	private TokenInfo token;
 
-	public GerenciadorToken(String email, String senha, String key) {
+	InthegraAgent(String email, String senha, String key) {
 		this.email = email;
 		this.senha = senha;
 		this.key = key;
 	}
 
-	public boolean autenticar() throws Exception {
+	boolean autenticar() throws Exception {
 		String requestJson = "{\"email\": \"" + email + "\",\"password\": \"" + senha + "\"}";
 
 		HttpURLConnection connection = criarConnection("signin", "POST");
@@ -45,8 +45,7 @@ public class GerenciadorToken {
 			throw new IllegalArgumentException("A url " + URL_SERVICE + " é inválida. (Erro 404)");
 		} else if (responseCode == 500) {
 			throw new RuntimeException("Erro interno do servidor da API. (Erro 500)");
-		}
-		else if (responseCode == 400) {
+		} else if (responseCode == 400) {
 			throw new RuntimeException("Erro de autenticação (login ou senha?). (Erro 400)");
 		}
 		String responseJson = inputStreamToString(connection.getInputStream());
@@ -61,12 +60,11 @@ public class GerenciadorToken {
 			autenticar();
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public List<Parada> getParadas() throws Exception {
+	List<Parada> getParadas() throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("paradas", "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		Type listType = new TypeToken<List<Parada>>() {
 		}.getType();
 		List<Parada> yourList = new Gson().fromJson(responseJson, listType);
@@ -74,12 +72,11 @@ public class GerenciadorToken {
 		return yourList;
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public List<Parada> getParadas(String busca) throws Exception {
+	List<Parada> getParadas(String busca) throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("paradas?busca=" + busca, "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		Type listType = new TypeToken<List<Parada>>() {
 		}.getType();
 		List<Parada> yourList = new Gson().fromJson(responseJson, listType);
@@ -87,69 +84,63 @@ public class GerenciadorToken {
 		return yourList;
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public ParadaLinha getParadasLinha(String linha) throws Exception {
+	ParadaLinha getParadasLinha(String linha) throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("paradasLinha?busca=" + linha, "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		ParadaLinha yourList = new Gson().fromJson(responseJson, ParadaLinha.class);
 		connection.disconnect();
 		return yourList;
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public List<Linha> getLinhas() throws Exception {
+	List<Linha> getLinhas() throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("linhas", "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
 		Type listType = new TypeToken<List<Linha>>() {
 		}.getType();
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		List<Linha> yourList = new Gson().fromJson(responseJson, listType);
 		connection.disconnect();
 		return yourList;
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public List<Linha> getLinhas(String busca) throws Exception {
+	List<Linha> getLinhas(String busca) throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("linhas?busca=" + busca, "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
 		Type listType = new TypeToken<List<Linha>>() {
 		}.getType();
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		List<Linha> yourList = new Gson().fromJson(responseJson, listType);
 		connection.disconnect();
 		return yourList;
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public List<VeiculoLinha> getVeiculos() throws Exception {
+	List<VeiculoLinha> getVeiculos() throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("veiculos", "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
 		Type listType = new TypeToken<List<VeiculoLinha>>() {
 		}.getType();
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		List<VeiculoLinha> yourList = new Gson().fromJson(responseJson, listType);
 		connection.disconnect();
 		return yourList;
 	}
 
-	// Provisorio, esse metodo nao deve ta aqui, TODO remover
-	public VeiculoLinha getVeiculosLinha(String linha) throws Exception {
+	VeiculoLinha getVeiculosLinha(String linha) throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("veiculosLinha?busca=" + linha, "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
-		System.out.println(responseJson);
+		// System.out.println(responseJson);
 		VeiculoLinha yourList = new Gson().fromJson(responseJson, VeiculoLinha.class);
 		connection.disconnect();
 		return yourList;
 	}
 
-	private HttpURLConnection criarConnection(String _url, String method)
-			throws Exception {
+	private HttpURLConnection criarConnection(String _url, String method) throws Exception {
 
 		URL url = new URL(URL_SERVICE + _url);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();

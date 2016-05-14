@@ -3,23 +3,23 @@ package com.equalsp.stransthe.modelo;
 import java.util.List;
 
 public class ParadaLinha {
-	private Linha linha;
-	private List<Parada> paradas;
+	private Linha Linha;
+	private List<Parada> Paradas;
 
 	public Linha getLinha() {
-		return linha;
+		return Linha;
 	}
 
 	public void setLinha(Linha linha) {
-		this.linha = linha;
+		this.Linha = linha;
 	}
 
 	public List<Parada> getParadas() {
-		return paradas;
+		return Paradas;
 	}
 
 	public void setParadas(List<Parada> paradas) {
-		this.paradas = paradas;
+		this.Paradas = paradas;
 	}
 
 }

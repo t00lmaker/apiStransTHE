@@ -9,15 +9,10 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 /**
  * Alguns métodos utilitários. 
@@ -79,12 +74,12 @@ public class Utils {
 		stream.close();
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(dateFormated(new Date()));
-	}
-	
-	public static Map<String, String> jsonInMap(String json){
-		Type type = new TypeToken<Map<String, String>>(){}.getType();
-		return new Gson().fromJson(json, type);
-	}
+//	public static void main(String[] args) {
+//		System.out.println(dateFormated(new Date()));
+//	}
+//	
+//	public static Map<String, String> jsonInMap(String json){
+//		Type type = new TypeToken<Map<String, String>>(){}.getType();
+//		return new Gson().fromJson(json, type);
+//	}
 }

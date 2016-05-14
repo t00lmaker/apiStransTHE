@@ -1,32 +1,16 @@
 package com.equalsp.stransthe.modelo;
 
 public class Parada {
-	
-	private String codigo;
-	
-	private String denominacao;
-	
+
+	private String CodigoParada;
+
+	private String Denomicao;
+
 	private String Endereco;
-	
-	private double lat;
-	
-	private double longi;
 
-	public String getCodigo() {
-		return codigo;
-	}
+	private double Lat;
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	public String getDenominacao() {
-		return denominacao;
-	}
-
-	public void setDenominacao(String denominacao) {
-		this.denominacao = denominacao;
-	}
+	private double Long;
 
 	public String getEndereco() {
 		return Endereco;
@@ -36,20 +20,36 @@ public class Parada {
 		Endereco = endereco;
 	}
 
+	public String getCodigoParada() {
+		return CodigoParada;
+	}
+
+	public void setCodigoParada(String codigoParada) {
+		CodigoParada = codigoParada;
+	}
+
+	public String getDenomicao() {
+		return Denomicao;
+	}
+
+	public void setDenomicao(String denomicao) {
+		Denomicao = denomicao;
+	}
+
 	public double getLat() {
-		return lat;
+		return Lat;
 	}
 
 	public void setLat(double lat) {
-		this.lat = lat;
+		Lat = lat;
 	}
 
-	public double getLongi() {
-		return longi;
+	public double getLong() {
+		return Long;
 	}
 
-	public void setLongi(double longi) {
-		this.longi = longi;
+	public void setLong(double l) {
+		Long = l;
 	}
 
 }

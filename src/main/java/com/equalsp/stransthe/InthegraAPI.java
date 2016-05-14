@@ -11,10 +11,10 @@ import com.equalsp.stransthe.modelo.VeiculoLinha;
 
 public class InthegraAPI {
 
-	private static GerenciadorToken tokenManager;
+	private static InthegraAgent tokenManager;
 
 	public static boolean init(String email, String senha, String key) throws Exception {
-		tokenManager = new GerenciadorToken(email, senha, key);
+		tokenManager = new InthegraAgent(email, senha, key);
 		return tokenManager.autenticar();
 	}
 
@@ -55,13 +55,9 @@ public class InthegraAPI {
 
 	public static void main(String[] args) throws Exception {
 		InthegraAPI.init("erickpassos@gmail.com", "circ51sp", "ef5f05bdedd34cada40187761d5daaa7");
-		Linha l = InthegraAPI.getLinhas("dirceu").get(0);
-		List<Veiculo> vs = InthegraAPI.getVeiculos(l);
-		Veiculo v = vs.get(0);
-		System.out.println(v.getCodigoVeiculo());
-		System.out.println(v.getHora());
-		System.out.println(v.getLat());
-		System.out.println(v.getLong());
+		Linha l = InthegraAPI.getLinhas("ininga").get(0);
+		Parada p = InthegraAPI.getParadas(l).get(0);
+		System.out.println(p.getCodigoParada());
 	}
 
 }
