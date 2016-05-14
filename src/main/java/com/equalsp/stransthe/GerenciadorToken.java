@@ -10,7 +10,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+
+import com.google.gson.Gson;
 
 public class GerenciadorToken {
 	
@@ -45,15 +48,16 @@ public class GerenciadorToken {
 		String responseJson = inputStreamToString(connection.getInputStream());
 		connection.disconnect();
 		Map<String, String> response = Utils.jsonInMap(responseJson);
-		this.token = response.get("token"); 
+		this.token = response.get("token");
 		return (token != null);
 	}
 	
 	//Provisorio, esse metodo nao deve ta aqui, TODO remover
 	public String getParadas() throws Exception {
 		HttpURLConnection connection = criarConnection("paradas", "GET");
-		
-		return null;
+		String responseJson = inputStreamToString(connection.getInputStream());
+		connection.disconnect();
+		return responseJson;
 	} 
 	
 
@@ -70,13 +74,17 @@ public class GerenciadorToken {
 		connection.setRequestProperty("Accept-Language", "en");
 		connection.setRequestProperty("Date", dateFormated(new Date()));
 		connection.setRequestProperty("X-Api-Key","49ea6f5525a34e71bdd7b4f8a92adaac");
+		if(token != null)
+			connection.setRequestProperty("X-Auth-Token", token);
+		
 		return connection;
 	}
 	
 	public static void main(String[] args) throws Exception {
 		GerenciadorToken g = new GerenciadorToken("luanpontes2@gmail.com", "naul1991", "49ea6f5525a34e71bdd7b4f8a92adaac");
 		g.autenticar();
-		System.out.println(g.token);
+		String paradas = g.getParadas();
+		System.out.println(paradas);
 	}
 	
 	
