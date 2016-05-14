@@ -16,11 +16,14 @@ Use os fontes ou a biblioteca pré-compilada em formato JAR no seu projeto Java.
 # Exemplo de utilização
 
 // inicializa a API (só precisa fazer uma vez por seção).
+
 InthegraAPI.init("voce@email.com", "sua-senha", "key-da-sua-app");
 
 // busca todas as linhas que possuem a palavra dirceu na descrição.
+
 List<Linha> linhas = IntegraAPI.getLinhas("dirceu");
 
 // busca situação atualizada de todos os ônibus da primeira linha recuperada acima.
+
 List<Veiculo> veiculos = IntegraAPI.getVeiculos(linhas.get(0)); 
 
