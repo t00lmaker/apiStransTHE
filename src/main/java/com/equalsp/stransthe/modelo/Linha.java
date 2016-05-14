@@ -2,6 +2,8 @@ package com.equalsp.stransthe.modelo;
 
 import java.util.List;
 
+import com.equalsp.stransthe.InthegraAPI;
+
 public class Linha {
 
 	private String CodigoLinha;
@@ -59,6 +61,13 @@ public class Linha {
 	}
 
 	public List<Veiculo> getVeiculos() {
+		if (Veiculos == null) {
+			try {
+				Veiculos = InthegraAPI.getVeiculos(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return Veiculos;
 	}
 
@@ -67,6 +76,13 @@ public class Linha {
 	}
 
 	public List<Parada> getParadas() {
+		if (paradas == null) {
+			try {
+				paradas = InthegraAPI.getParadas(this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return paradas;
 	}
 
