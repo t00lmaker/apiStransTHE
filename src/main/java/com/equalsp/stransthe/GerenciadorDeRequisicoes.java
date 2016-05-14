@@ -49,22 +49,6 @@ public class GerenciadorDeRequisicoes {
 	}
 	
 
-	/**
-	 * Seta o conteúdo (body) passado por parametro
-	 * na conexão. 
-	 * 
-	 * @param requestJson
-	 * @param connection
-	 * @throws IOException
-	 * @throws UnsupportedEncodingException
-	 */
-	private void setBody(String requestJson, HttpURLConnection connection) 
-				throws IOException, UnsupportedEncodingException {
-		
-		DataOutputStream stream = new DataOutputStream(connection.getOutputStream());
-		stream.write(requestJson.getBytes("UTF-8"));
-		stream.flush();
-		stream.close();
-	}
+	
 
 }
