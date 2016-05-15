@@ -53,7 +53,7 @@ Exemplo de resultado:
 
 # Caching e busca de linhas que passam em uma parada
 
-Os dados relativos a paradas e linhas deve mudar muito pouco, portanto o uso de caching local (melhor ainda um banco de dados local) pode benecificar a maior parte das consultas à API. Por isso, a classe CachedInthegraService implementa um serviço inicialmente faz a carga completa dos dados de Paradas e Linhas, para então permitir acesso a buscas locais.
+Os dados relativos a paradas e linhas deve mudar muito pouco, portanto o uso de caching local (melhor ainda um banco de dados local) pode benecificar a maior parte das consultas à API. Por isso, a classe CachedInthegraService implementa um serviço que inicialmente faz a carga completa dos dados de Paradas e Linhas, para então permitir acesso a buscas locais.
 
 Além disso, CachedInthegraService implementa o método getLinhas(Parada p), que está definido na API mas não é implementado pela classe IntegraService básica. Esses dados não são fornecidos diretamente pela API Rest, mas podem ser calculados a partir da coleção completa de linhas e paradas em cache e a relação definida entre linhas de uma parada.
 
@@ -64,7 +64,7 @@ Exemplo de uso de CachedIntegraService:
 InthegraService delegate = new InthegraService("key-da-sua-app", "voce@email.com",  "sua-senha");
 
 // inicializa cache (utiliza o serviço padrão como delegate para buscas online durante cache refresh). Usando um dia como tempo de expiração da cache de linhas e paradas.
-CachedInthegraService cachedService = new CachedInthegraService(service, 1, TimeUnit.DAYS);
+CachedInthegraService cachedService = new CachedInthegraService(delegate, 1, TimeUnit.DAYS);
 
 // busca paradas com o termo "FREI SERAFIM", e lista todas as linhas que passam na primeira parada encontrada.  
 List<Parada> paradasFreiSerafim1 = cachedService.getParadas("AV. FREI SERAFIM 1");
