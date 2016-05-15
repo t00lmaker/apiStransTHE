@@ -71,6 +71,13 @@ List<Veiculo> veiculos2 = linha.getVeiculos();
 // o mesmo vale para as paradas:
 List<Parada> veiculos = linha.getParadas(); 
 ```
+# CacheManager
+
+A classe CacheManager facilita a construção de um BD local com os dados completos de Paradas e Linhas (que não deve mudar dinamicamente e pode fazer bom uso de eficiencia de dados locais). Outra funcionalidade importante é que os dados montados pelo CacheManager possuem relação bidirecional (Linhas possuem a coleção de paradas, e as Paradas a coleção de linhas que passam por elas - isso não existe na API original).
+
+Para usar o CacheManager, inicialize a API como instruido acima, e chame CacheManager.buildCache();
+
+Demora um pouco para coletar todos os dados, por isso a sugestão de transferir os dois objetos Map da cache para um BD local de sua aplicação.
 
 # Licença de uso
 
