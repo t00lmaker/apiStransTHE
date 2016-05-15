@@ -3,7 +3,14 @@ package com.equalsp.stransthe.rotas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rota {
+public class Rota implements Comparable<Rota> {
+
+	private boolean priorizaDistancia = false;
+
+	public Rota(boolean priorizaDistancia) {
+		super();
+		this.priorizaDistancia = priorizaDistancia;
+	}
 
 	private List<Trecho> trechos = new ArrayList<Trecho>();
 
@@ -25,6 +32,18 @@ public class Rota {
 			distancia += trecho.getDistancia();
 		}
 		return distancia;
+	}
+
+	@Override
+	public int compareTo(Rota o) {
+		if (priorizaDistancia) {
+			double diff = getDistanciaTotal() - o.getDistanciaTotal();
+			return (int) diff;
+		}
+		else {
+			long diff = getTempoTotal() - o.getTempoTotal();
+			return (int) diff;
+		}
 	}
 
 }
