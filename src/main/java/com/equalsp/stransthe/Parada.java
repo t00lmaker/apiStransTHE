@@ -1,8 +1,5 @@
 package com.equalsp.stransthe;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class Parada {
 
 	private String CodigoParada;
@@ -14,20 +11,6 @@ public class Parada {
 	private double Lat;
 
 	private double Long;
-
-	private Set<Linha> linhas = new HashSet<Linha>();
-
-	/**
-	 * Só funciona caso linhas e paradas sejam obtidas pelo CacheManager ou BD local.
-	 * @return
-	 */
-	public Set<Linha> getLinhas() {
-		return linhas;
-	}
-
-	public void setLinhas(Set<Linha> linhas) {
-		this.linhas = linhas;
-	}
 
 	public String getEndereco() {
 		return Endereco;
@@ -80,10 +63,7 @@ public class Parada {
 
 	@Override
 	public int hashCode() {
-		int number = 17;
-		number = 31 * number + CodigoParada.hashCode();
-		number = 31 * number + Denomicao.hashCode();
-		return number;
+		return CodigoParada == null ? 0 : CodigoParada.hashCode();
 	}
 
 }
