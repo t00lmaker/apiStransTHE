@@ -19,24 +19,24 @@ Use os fontes ou a biblioteca pré-compilada em formato JAR no seu projeto Java.
 
 # Exemplo de utilização
 ```java
-// inicializa a API (só precisa fazer uma vez por seção).  
-InthegraAPI.init("voce@email.com", "sua-senha", "key-da-sua-app");
+// inicializa a API (só precisa fazer uma vez por seção). 
+InthegraService service = new InthegraService("key-da-sua-app", "voce@email.com",  "sua-senha");
 
-// busca todas as linhas do bairro Santa Maria da Codipe.  
-List<Linha> linhas = InthegraAPI.getLinhas("saint mary of codipe");
+// busca todas as linhas do bairro SAO CRISTOVAO.  
+List<Linha> linhas = service.getLinhas("SAO CRISTOVAO");
 
 // busca situação atualizada de todos os ônibus da primeira linha recuperada acima.  
-List<Veiculo> veiculos = InthegraAPI.getVeiculos(linhas.get(0)); 
+List<Veiculo> veiculos = service.getVeiculos(linhas.get(0)); 
 
-// busca todas as paradas do bairro vamos ver o sol...
-List<Parada> paradas = InthegraAPI.getParadas("lets see the sun");
+// busca todas as paradas da Av FREI SERAFIM
+List<Parada> paradas = service.getParadas("FREI SERAFIM");
 ```
 
 As classes Veiculo, Parada e Linha possuem atributos (e métodos acessores) para os dados fornecidos pela API:
 
 ```java
 // código, últimas latitude/longitude e a hora da última atualização de um veículo.
-Veiculo v = InthegraAPI.getVeiculos().get(0);
+Veiculo v = service.getVeiculos().get(0);
 System.out.println(v.getCodigo());
 System.out.println(v.getLat());
 System.out.println(v.getLong());
@@ -49,44 +49,6 @@ Exemplo de resultado:
 -5.101155
 -42.755557
 08:50
-```
-# Fucionalidades ORM-like (lazy loading)
-
-Ao buscar linhas, não é necessário fazer a busca dos veículos ou paradas dessa linha, bastando usar o método acessor correspondente. 
-
-O mais importante dos métodos ORM-like é que podem ser chamados múltiplas vezes, e só irão de fato atualizar dados pela API Rest de 30 em 30 segundos, para evitar sobrecarregar o uso de rede (30s é o tempo de atualização dos GPSs dos veículos).
-
-Exemplo abaixo:
-
-```java
-// escolhendo uma linha:
-Linha linha = InthegraAPI.getLinhas("ininga").get(0);
-
-// busca por veículos é feita dinamicamente:
-List<Veiculo> veiculos = linha.getVeiculos();
-
-// segunda busca não faz uso de rede (a não ser que tenham se passado mais de 30s desde a última chamada. 
-List<Veiculo> veiculos2 = linha.getVeiculos(); 
-
-// o mesmo vale para as paradas:
-List<Parada> veiculos = linha.getParadas(); 
-```
-# CacheManager
-
-A classe CacheManager facilita a construção de um BD local com os dados completos de Paradas e Linhas (que não deve mudar dinamicamente e pode fazer bom uso de eficiencia de dados locais). Outra funcionalidade importante é que os dados montados pelo CacheManager possuem relação bidirecional (Linhas possuem a coleção de paradas, e as Paradas a coleção de linhas que passam por elas - isso não existe na API original).
-
-Para usar o CacheManager, inicialize a API como instruido acima, e chame CacheManager.buildCache();
-
-Demora um pouco para coletar todos os dados, por isso a sugestão de transferir os dois objetos Map da cache para um BD local de sua aplicação. Exemplo:
-
-```java
-// demora algum tempo para recuperar e construir o grafo bidirecional Linha <-> Parada
-CacheManager.buildCache();
-
-// Verificando quantas linhas passam em cada parada
-for (Parada p : CacheManager.paradas.values()) {
-	System.out.println(p.getDenomicao() + " - " + p.getLinhas().size());
-}
 ```
 
 # Licença de uso

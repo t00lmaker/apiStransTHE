@@ -1,8 +1,5 @@
 package com.equalsp.stransthe;
 
-import java.util.Date;
-import java.util.List;
-
 public class Linha {
 
 	private String CodigoLinha;
@@ -14,10 +11,6 @@ public class Linha {
 	private String Retorno;
 
 	private boolean Circular;
-
-	private List<Veiculo> Veiculos;
-
-	private List<Parada> paradas;
 
 	public String getCodigoLinha() {
 		return CodigoLinha;
@@ -59,37 +52,6 @@ public class Linha {
 		this.Circular = circular;
 	}
 
-	private Date ultimaAtualizacaoVeiculos;
-
-	public List<Veiculo> getVeiculos() throws Exception {
-		// só atualiza veículos no primeiro acesso, depois de 30 em 30s
-		if (ultimaAtualizacaoVeiculos == null || Utils.expired(ultimaAtualizacaoVeiculos, 30)) {
-			ultimaAtualizacaoVeiculos = new Date();
-			Veiculos = InthegraAPI.getVeiculos(this);
-		}
-		return Veiculos;
-	}
-
-	List<Veiculo> getVeiculosFromJson() {
-		return Veiculos;
-	}
-
-	public void setVeiculos(List<Veiculo> veiculos) {
-		Veiculos = veiculos;
-	}
-
-	public List<Parada> getParadas() throws Exception {
-		// paradas de linha só é preciso buscar uma vez... não busca se foi construido por cache manager ou bd local.
-		if (paradas == null) {
-			paradas = InthegraAPI.getParadas(this);
-		}
-		return paradas;
-	}
-
-	public void setParadas(List<Parada> paradas) {
-		this.paradas = paradas;
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Linha) {
@@ -101,12 +63,7 @@ public class Linha {
 	
 	@Override
 	public int hashCode() {
-		int number = 17;
-		number = 31 * number + CodigoLinha.hashCode();
-		number = 31 * number + Denomicao.hashCode();
-		number = 31 * number + Retorno.hashCode();
-		number = 31 * number + Origem.hashCode();
-		return number;
+		return CodigoLinha == null ? 0 : CodigoLinha.hashCode();
 	}
 
 }

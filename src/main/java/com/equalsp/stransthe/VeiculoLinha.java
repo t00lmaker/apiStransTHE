@@ -1,20 +1,14 @@
 package com.equalsp.stransthe;
 
-/**
- * Auxiliar para busca de veículo, que vem organizados por linha
- * 
- * @author jenifercosta
- *
- */
 class VeiculoLinha {
-	private Linha Linha;
+	private ListaVeiculos Linha;
 
-	public Linha getLinha() {
+	public ListaVeiculos getLinha() {
 		return Linha;
 	}
 
-	public void setLinha(Linha linha) {
-		this.Linha = linha;
+	public void setLinha(ListaVeiculos linha) {
+		Linha = linha;
 	}
 
 }
