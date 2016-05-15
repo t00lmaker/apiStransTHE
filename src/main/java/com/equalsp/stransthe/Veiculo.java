@@ -1,6 +1,6 @@
 package com.equalsp.stransthe;
 
-public class Veiculo {
+public class Veiculo extends Localizacao {
 
 	private String CodigoVeiculo;
 
