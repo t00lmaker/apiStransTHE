@@ -23,15 +23,15 @@ public abstract class Localizacao {
 	}
 
 	public double getDistancia(Localizacao outra) {
-		double diffLat = getLat() - outra.getLat();
-		double diffLong = getLong() - outra.getLong();
-		return Math.sqrt(diffLat * diffLat + diffLong * diffLong);
-	}
-
-	public double getDistanciaManhathan(Localizacao outra) {
-		double diffLat = getLat() - outra.getLat();
-		double diffLong = getLong() - outra.getLong();
-		return Math.abs(diffLat) + Math.abs(diffLong);
+		double R = 6378.137; // raio da terra em KM
+		double dLat = (getLat() - outra.getLat()) * Math.PI / 180 ;
+		double dLon = (getLong() - outra.getLong()) * Math.PI / 180;
+	    double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+	    Math.cos(getLat() * Math.PI / 180) * Math.cos(outra.getLat() * Math.PI / 180) *
+	    Math.sin(dLon/2) * Math.sin(dLon/2);
+	    double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+	    double d = R * c;
+	    return d * 1000; // metros
 	}
 
 }

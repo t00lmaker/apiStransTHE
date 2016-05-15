@@ -15,8 +15,8 @@ public class ComparadorPorProximidade implements Comparator<Localizacao> {
 
 	@Override
 	public int compare(Localizacao o1, Localizacao o2) {
-		double dist1 = o1.getDistanciaManhathan(referencia);
-		double dist2 = o2.getDistanciaManhathan(referencia);
+		double dist1 = o1.getDistancia(referencia);
+		double dist2 = o2.getDistancia(referencia);
 		double diff = dist1 - dist2;
 		return (int) diff;
 	}

@@ -36,7 +36,7 @@ public class Trecho {
 	}
 	
 	public double getDistancia() {
-		return origem.getDistanciaManhathan(destino);
+		return origem.getDistancia(destino);
 	}
 	
 	public long getTempo() {

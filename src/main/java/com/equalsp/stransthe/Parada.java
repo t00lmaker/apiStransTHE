@@ -45,5 +45,10 @@ public class Parada extends Localizacao {
 	public int hashCode() {
 		return CodigoParada == null ? 0 : CodigoParada.hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return getDenomicao() + " (" + getLat() + "," + getLong() + ")";
+	}
 
 }
