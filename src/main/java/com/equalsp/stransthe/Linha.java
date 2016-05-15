@@ -61,15 +61,11 @@ public class Linha {
 
 	private Date ultimaAtualizacaoVeiculos;
 
-	public List<Veiculo> getVeiculos() {
+	public List<Veiculo> getVeiculos() throws Exception {
 		// só atualiza veículos no primeiro acesso, depois de 30 em 30s
 		if (ultimaAtualizacaoVeiculos == null || Utils.expired(ultimaAtualizacaoVeiculos, 30)) {
-			try {
-				ultimaAtualizacaoVeiculos = new Date();
-				Veiculos = InthegraAPI.getVeiculos(this);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			ultimaAtualizacaoVeiculos = new Date();
+			Veiculos = InthegraAPI.getVeiculos(this);
 		}
 		return Veiculos;
 	}
@@ -82,14 +78,10 @@ public class Linha {
 		Veiculos = veiculos;
 	}
 
-	public List<Parada> getParadas() {
+	public List<Parada> getParadas() throws Exception {
 		// paradas de linha só é preciso buscar uma vez...
 		if (paradas == null) {
-			try {
-				paradas = InthegraAPI.getParadas(this);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			paradas = InthegraAPI.getParadas(this);
 		}
 		return paradas;
 	}

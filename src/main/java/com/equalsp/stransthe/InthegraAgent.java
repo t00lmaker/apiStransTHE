@@ -86,7 +86,7 @@ class InthegraAgent {
 		updateToken();
 		HttpURLConnection connection = criarConnection("paradasLinha?busca=" + linha, "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
-		// System.out.println(responseJson);
+		//System.out.println(responseJson);
 		ParadaLinha yourList = new Gson().fromJson(responseJson, ParadaLinha.class);
 		connection.disconnect();
 		return yourList;
@@ -132,7 +132,7 @@ class InthegraAgent {
 		updateToken();
 		HttpURLConnection connection = criarConnection("veiculosLinha?busca=" + linha, "GET");
 		String responseJson = inputStreamToString(connection.getInputStream());
-		// System.out.println(responseJson);
+		//System.out.println(responseJson);
 		VeiculoLinha yourList = new Gson().fromJson(responseJson, VeiculoLinha.class);
 		connection.disconnect();
 		return yourList;

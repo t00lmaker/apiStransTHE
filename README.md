@@ -2,6 +2,10 @@
 
 Biblioteca Java para simplificar o acesso à API REST do sistema Inthegra (acesso a dados real-time sobre linhas, paradas e ônibus da cidade de Teresina-PI).
 
+# Atenção! (problemas com buscas de paradas e veículos por linha)
+
+Avisamos que a busca de paradas por linha e veiculos por linha não funciona pra todas as linhas por probemas na própria API do Strans. Os problemas já foram reportados e estamos esperando a solução dos mesmos. Não deverá ser necessária uma atualização dessa biblioteca, a não ser que o Strans publique uma nova versão da API (atualmente estamos na versão v1).
+
 # Instruções
 
 Use os fontes ou a biblioteca pré-compilada em formato JAR no seu projeto Java. Única dependência é a biblioteca Gson (serialização JSON). Internamente, a biblioteca utiliza requests HTTP da biblioteca básica Java, portanto irá funcionar para projetos standalone, backend (aplicações web) ou Apps Android.
