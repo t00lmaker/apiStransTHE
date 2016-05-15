@@ -5,13 +5,6 @@ import java.util.List;
 
 public class Rota implements Comparable<Rota> {
 
-	private boolean priorizaDistancia = false;
-
-	public Rota(boolean priorizaDistancia) {
-		super();
-		this.priorizaDistancia = priorizaDistancia;
-	}
-
 	private List<Trecho> trechos = new ArrayList<Trecho>();
 
 	public List<Trecho> getTrechos() {
@@ -36,14 +29,9 @@ public class Rota implements Comparable<Rota> {
 
 	@Override
 	public int compareTo(Rota o) {
-		if (priorizaDistancia) {
-			double diff = getDistanciaTotal() - o.getDistanciaTotal();
-			return (int) diff;
-		}
-		else {
-			long diff = getTempoTotal() - o.getTempoTotal();
-			return (int) diff;
-		}
+		double diff = getDistanciaTotal() - o.getDistanciaTotal();
+		return (int) diff;
+
 	}
 
 }

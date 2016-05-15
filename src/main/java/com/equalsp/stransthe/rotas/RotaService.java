@@ -1,6 +1,7 @@
 package com.equalsp.stransthe.rotas;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -10,17 +11,6 @@ import com.equalsp.stransthe.Localizacao;
 import com.equalsp.stransthe.Parada;
 
 public class RotaService {
-
-	private boolean priorizaDistancia = false;
-
-	public RotaService() {
-		super();
-	}
-
-	public RotaService(boolean priorizaDistancia) {
-		this();
-		this.priorizaDistancia = priorizaDistancia;
-	}
 
 	// obter paradas proximas de A e B, descobrir linhas que saem das proximas
 	// de a, até as proximas de B
@@ -33,7 +23,21 @@ public class RotaService {
 		}
 		return rotas;
 	}
-
+	
+	public Set<Rota> getRotas(List<Parada> origens, List<Parada> destinos) {
+		Set<Rota> rotas = new TreeSet<Rota>();
+		for (Parada origem : origens) {
+			List<Linha> linhasOrigem = getLinhas(origem);
+			for (Linha linha : linhasOrigem) {
+				Parada destino = LinhaPassaApos(linha, origem, destinos);
+				if (destino != null) {
+					rotas.add(criaRota(linha, origem, destino));
+				}
+			}
+		}
+		return rotas;
+	}
+	
 	private void AdicionarTrechosPedestre(Rota rota, PontoDeInteresse a, PontoDeInteresse b) {
 		Trecho inicial = new Trecho();
 		inicial.setOrigem(a);
@@ -47,22 +51,8 @@ public class RotaService {
 		rota.getTrechos().add(f);
 	}
 
-	private Set<Rota> getRotas(List<Parada> origens, List<Parada> destinos) {
-		Set<Rota> rotas = new TreeSet<Rota>();
-		for (Parada origem : origens) {
-			List<Linha> linhasOrigem = getLinhas(origem);
-			for (Linha linha : linhasOrigem) {
-				Parada destino = LinhaPassaApos(linha, origem, destinos);
-				if (destino != null) {
-					rotas.add(criaRota(linha, origem, destino));
-				}
-			}
-		}
-		return rotas;
-	}
-
 	private Rota criaRota(Linha linha, Parada origem, Parada destino) {
-		Rota r = new Rota(priorizaDistancia);
+		Rota r = new Rota();
 		Trecho t = new Trecho();
 		t.setDestino(destino);
 		t.setOrigem(origem);
@@ -95,7 +85,8 @@ public class RotaService {
 			if (proximas.size() >= quantidade)
 				break;
 		}
-		// TODO ordenar por mais proxima...
+		// Ordenar por proximidade a 'a'
+		Collections.sort(proximas, new ComparadorPorProximidade(a));
 		return proximas;
 	}
 
