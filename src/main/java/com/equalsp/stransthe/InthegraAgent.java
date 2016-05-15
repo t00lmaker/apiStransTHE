@@ -13,6 +13,11 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * 
+ * @author Luan Pontes (updates by Erick Passos)
+ *
+ */
 class InthegraAgent {
 	
 	public static final String API_VERSION = "v1";

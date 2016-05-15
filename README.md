@@ -71,3 +71,5 @@ List<Veiculo> veiculos2 = linha.getVeiculos();
 // o mesmo vale para as paradas:
 List<Parada> veiculos = linha.getParadas(); 
 ```
+
+Autores: Luan Pontes e Erick Passos
