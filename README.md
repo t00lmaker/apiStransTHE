@@ -1,6 +1,6 @@
 # apiStransTHE
 
-Biblioteca Java para simplificar o acesso à API REST do sistema Inthegra (acesso a dados real-time sobre linhas, paradas e ônibus da cidade de Teresina-PI).
+Biblioteca Java para simplificar o acesso à API REST do sistema Inthegra (acesso a dados real-time sobre linhas, paradas e ônibus da cidade de Teresina-PI). Para se registrar na API Inthegra, acesse o site oficial em https://inthegra.strans.teresina.pi.gov.br.
 
 # Atenção! (problemas com buscas de paradas e veículos por linha)
 
