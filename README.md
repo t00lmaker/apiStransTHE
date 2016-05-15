@@ -77,7 +77,7 @@ ps.: (a classe Testes.java inclui mais exemplos de utilização).
 
 # Cálculo de rotas (alpha)
 
-RotaService implementa uma versão preliminar de busca de rotas de ônibus com base em CachedInthegraService exclusivamente (faz uso da lista de linhas que passam em uma parada). Existem métodos para retornar rotas a partir de pontos de interesse quaisquer (dois pares de latitude e longitude obtidas de um mapa, por exemplo), ou a partir de paradas de origem e destino. Segue um exemplo de uso (considerando a existência de uma instâcia de CachedInthegraService):
+RotaService implementa uma versão preliminar de busca de rotas de ônibus com base em CachedInthegraService exclusivamente (faz uso da lista de linhas que passam em uma parada). Existem métodos para retornar rotas a partir de pontos de interesse quaisquer (dois pares de latitude e longitude obtidas de um mapa, por exemplo), ou a partir de paradas de origem e destino. Segue um exemplo de uso (considerando a existência de uma instância de CachedInthegraService):
 
 ```java
 // inicializa serviço de rotas.
@@ -92,6 +92,12 @@ Set<Rota> rotas = rotaService.getRotas(a, b, 200);
 ```
 
 Uma rota a partir de pontos de interesse possui 3 trechos (um à pé até a primeira parada, uma linha de ônibus, e outro à pé da parada destino até o ponto de interesse final). Rotas a partir de paradas possuem apenas um trecho (linha de ônibus - não computamos rotas com mais de uma linha ainda).
+
+**Importante**: como sugestão de serviço, pode ser interessante a localização dos veículos da linha definida para uma rota escolhida (o serviço fornece os dados pelo Método getVeiculos(Linha l)), para localizar o próximo a passar na parada de origem (com base em distância e aproximação da direção de movimento (use a criatividade).
+
+**Importante 2**: o sistema de rotas foi testado em algumas situações, mas não é garantido que esteja calculando rotas reversas (no caminho de volta de uma linha - será testado ainda).
+
+**Importante 3**: as distâncias dos trechos são calculadas em linha reta sobre a superfície do planeta (considerando a curvatura), mas não representam a distância a ser trafegada por conta de quadras e ruas (sugerimos a integração com um serviço como a API google maps para incrementar a informação com dados mais precisos, inclusive previsão de tempo de viagem, etc).
 
 ps.: (a classe Testes.java inclui mais exemplos de utilização).
 
