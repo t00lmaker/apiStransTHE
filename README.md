@@ -77,7 +77,17 @@ A classe CacheManager facilita a construção de um BD local com os dados comple
 
 Para usar o CacheManager, inicialize a API como instruido acima, e chame CacheManager.buildCache();
 
-Demora um pouco para coletar todos os dados, por isso a sugestão de transferir os dois objetos Map da cache para um BD local de sua aplicação.
+Demora um pouco para coletar todos os dados, por isso a sugestão de transferir os dois objetos Map da cache para um BD local de sua aplicação. Exemplo:
+
+```java
+// demora algum tempo para recuperar e construir o grafo bidirecional Linha <-> Parada
+CacheManager.buildCache();
+
+// Verificando quantas linhas passam em cada parada
+for (Parada p : CacheManager.paradas.values()) {
+	System.out.println(p.getDenomicao() + " - " + p.getLinhas().size());
+}
+```
 
 # Licença de uso
 
