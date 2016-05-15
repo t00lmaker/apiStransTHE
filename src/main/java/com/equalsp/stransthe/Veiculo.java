@@ -41,4 +41,20 @@ public class Veiculo {
 	public void setHora(String hora) {
 		this.Hora = hora;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Veiculo) {
+			Veiculo other = (Veiculo) obj;
+			return CodigoVeiculo.equals(other.CodigoVeiculo);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		int number = 17;
+		number = 31 * number + CodigoVeiculo.hashCode();
+		return number;
+	}
 }

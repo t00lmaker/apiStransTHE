@@ -1,5 +1,8 @@
 package com.equalsp.stransthe;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Parada {
 
 	private String CodigoParada;
@@ -11,6 +14,16 @@ public class Parada {
 	private double Lat;
 
 	private double Long;
+
+	private Set<Linha> linhas = new HashSet<Linha>();
+
+	public Set<Linha> getLinhas() {
+		return linhas;
+	}
+
+	public void setLinhas(Set<Linha> linhas) {
+		this.linhas = linhas;
+	}
 
 	public String getEndereco() {
 		return Endereco;
@@ -50,6 +63,23 @@ public class Parada {
 
 	public void setLong(double l) {
 		Long = l;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Parada) {
+			Parada other = (Parada) obj;
+			return CodigoParada.equals(other.CodigoParada);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int number = 17;
+		number = 31 * number + CodigoParada.hashCode();
+		number = 31 * number + Denomicao.hashCode();
+		return number;
 	}
 
 }

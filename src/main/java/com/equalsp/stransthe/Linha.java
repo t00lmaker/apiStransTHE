@@ -89,5 +89,24 @@ public class Linha {
 	public void setParadas(List<Parada> paradas) {
 		this.paradas = paradas;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Linha) {
+			Linha other = (Linha) obj;
+			return CodigoLinha.equals(other.CodigoLinha);
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		int number = 17;
+		number = 31 * number + CodigoLinha.hashCode();
+		number = 31 * number + Denomicao.hashCode();
+		number = 31 * number + Retorno.hashCode();
+		number = 31 * number + Origem.hashCode();
+		return number;
+	}
 
 }
