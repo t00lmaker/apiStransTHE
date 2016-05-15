@@ -23,10 +23,10 @@ public class CacheManager {
 						paradas.put(p.getCodigoParada(), p);
 					p.getLinhas().add(l);
 				}
+				// Paradas podem ser objetos novos
+				l.getParadas().clear();
 			} catch (Exception e) {
 			}
-			// Paradas podem ser objetos novos
-			l.getParadas().clear();
 		}
 		// reconstruindo relacao por parte de linhas...
 		for (Parada p : paradas.values()) {
