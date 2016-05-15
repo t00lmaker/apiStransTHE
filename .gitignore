@@ -1,11 +1,4 @@
 /target/
-
-*.class
-
-target/classes/META-INF/MANIFEST.MF
-
-target/classes/META-INF/maven/com.equalsp.api/stansthe/pom.properties
-
-*.class
-
-target/classes/com/equalsp/stransthe/InthegraAPI.class
+/.settings/
+.classpath
+.project
