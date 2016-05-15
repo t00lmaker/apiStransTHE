@@ -17,6 +17,10 @@ public class Parada {
 
 	private Set<Linha> linhas = new HashSet<Linha>();
 
+	/**
+	 * Só funciona caso linhas e paradas sejam obtidas pelo CacheManager ou BD local.
+	 * @return
+	 */
 	public Set<Linha> getLinhas() {
 		return linhas;
 	}

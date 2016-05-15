@@ -79,7 +79,7 @@ public class Linha {
 	}
 
 	public List<Parada> getParadas() throws Exception {
-		// paradas de linha só é preciso buscar uma vez...
+		// paradas de linha só é preciso buscar uma vez... não busca se foi construido por cache manager ou bd local.
 		if (paradas == null) {
 			paradas = InthegraAPI.getParadas(this);
 		}
