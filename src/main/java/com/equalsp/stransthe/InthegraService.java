@@ -45,32 +45,38 @@ public class InthegraService implements InthegraAPI {
 
 	@Override
 	public List<Linha> getLinhas() throws IOException {
+		initialize();
 		return getLinhas(null);
 	}
 
 	@Override
 	public List<Linha> getLinhas(String busca) throws IOException {
+		initialize();
 		return client.get(getPathComBusca("/linhas", busca), LIST_LINHAS);
 	}
 
 	@Override
 	public List<Parada> getParadas() throws IOException {
+		initialize();
 		return getParadas((String)null);
 	}
 
 	@Override
 	public List<Parada> getParadas(String busca) throws IOException {
+		initialize();
 		return client.get(getPathComBusca("/paradas", busca), LIST_PARADAS);
 	}
 
 	@Override
 	public List<Parada> getParadas(Linha linha) throws IOException {
+		initialize();
 		ParadaLinha pl = client.get(getPathComBusca("/paradasLinha", linha.getCodigoLinha()), ParadaLinha.class);
 		return pl.getParadas();
 	}
 
 	@Override
 	public List<Veiculo> getVeiculos() throws IOException {
+		initialize();
 		List<Veiculo> v = new ArrayList<Veiculo>();
 		List<VeiculoLinha> linhas = client.get("/veiculos", LIST_VEICULOS_LINHAS);
 		for (VeiculoLinha veiculoLinha : linhas) {
@@ -81,6 +87,7 @@ public class InthegraService implements InthegraAPI {
 
 	@Override
 	public List<Veiculo> getVeiculos(Linha linha) throws IOException {
+		initialize();
 		VeiculoLinha vl = client.get(getPathComBusca("/veiculosLinha", linha.getCodigoLinha()), VeiculoLinha.class);
 		return vl.getLinha().getVeiculos();
 	}
