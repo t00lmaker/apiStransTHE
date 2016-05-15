@@ -4,10 +4,6 @@ public class Veiculo extends Localizacao {
 
 	private String CodigoVeiculo;
 
-	private double Lat;
-
-	private double Long;
-
 	private String Hora;
 
 	public String getCodigoVeiculo() {
@@ -16,22 +12,6 @@ public class Veiculo extends Localizacao {
 
 	public void setCodigoVeiculo(String codigoVeiculo) {
 		CodigoVeiculo = codigoVeiculo;
-	}
-
-	public double getLat() {
-		return Lat;
-	}
-
-	public void setLat(double lat) {
-		this.Lat = lat;
-	}
-
-	public double getLong() {
-		return Long;
-	}
-
-	public void setLong(double longi) {
-		this.Long = longi;
 	}
 
 	public String getHora() {

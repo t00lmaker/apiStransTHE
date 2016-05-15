@@ -1,16 +1,12 @@
 package com.equalsp.stransthe;
 
-public class Parada {
+public class Parada extends Localizacao {
 
 	private String CodigoParada;
 
 	private String Denomicao;
 
 	private String Endereco;
-
-	private double Lat;
-
-	private double Long;
 
 	public String getEndereco() {
 		return Endereco;
@@ -34,22 +30,6 @@ public class Parada {
 
 	public void setDenomicao(String denomicao) {
 		Denomicao = denomicao;
-	}
-
-	public double getLat() {
-		return Lat;
-	}
-
-	public void setLat(double lat) {
-		Lat = lat;
-	}
-
-	public double getLong() {
-		return Long;
-	}
-
-	public void setLong(double l) {
-		Long = l;
 	}
 
 	@Override
