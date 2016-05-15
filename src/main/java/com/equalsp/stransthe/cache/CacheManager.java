@@ -37,4 +37,18 @@ public class CacheManager {
 		
 		// TODO salvar em BD local o cache...
 	}
+	
+	public static HashMap<String, Linha> getLinhas() throws Exception {
+		if (linhas.isEmpty()) {
+			buildCache();
+		}
+		return linhas;
+	}
+	
+	public static HashMap<String, Parada> getParadas() throws Exception {
+		if (paradas.isEmpty()) {
+			buildCache();
+		}
+		return paradas;
+	}
 }

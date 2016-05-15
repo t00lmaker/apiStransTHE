@@ -8,17 +8,13 @@ import java.util.List;
 import com.equalsp.stransthe.InthegraAPI;
 import com.equalsp.stransthe.Linha;
 import com.equalsp.stransthe.Parada;
+import com.equalsp.stransthe.cache.CacheManager;
 
 public class Util {
-	
 	private static final int distanciaProximaEmMetros = 250;
 
 	/**
 	 * Retorna as linhas que podem ser utilizadas para se locomover de um local a outro.
-	 * 
-	 * Observação: Este método é muito lento (~ 4 min) porque para cada linha é
-	 * executada a requisição para recuperar as paradas. Como já foi comentado
-	 * pelo Erick, seria uma boa guardar esse tipo de informação em um bd lite.
 	 * 
 	 * @param origem - do trajeto
 	 * @param destino - do trajeto
@@ -29,10 +25,11 @@ public class Util {
 		List<Parada> paradasProximasDaOrigem = getParadasProximas(origem, distanciaProximaEmMetros);
 		List<Parada> paradasProximasDoDestino = getParadasProximas(destino, distanciaProximaEmMetros);
 		
-		List<Linha> todasAsLinhas = InthegraAPI.getLinhas();
+		
+		HashMap<String, Linha> todasAsLinhas = CacheManager.getLinhas();
 		HashMap<Linha, List<Parada>> linhas = new HashMap<Linha, List<Parada>>();
 		
-		for (Linha linha : todasAsLinhas) {
+		for (Linha linha : todasAsLinhas.values()) {
 			List<Parada> paradasDaLinha = linha.getParadas();
 			if (!paradasDaLinha.isEmpty()) {
 				for (Parada paradaOrigem : paradasProximasDaOrigem) {
@@ -54,10 +51,6 @@ public class Util {
 	 * Retorna a melhor parada, em números de opções de linhas, para se
 	 * locomover de um local a outro.
 	 * 
-	 * Observação: Este método é muito lento (~ 4 min) porque para cada linha é
-	 * executada a requisição para recuperar as paradas. Como já foi comentado
-	 * pelo Erick, seria uma boa guardar esse tipo de informação em um bd lite.
-	 * 
 	 * Problema: Ainda não diferença no sentido do trajeto. 
 	 * Bairro -> Centro ou Centro -> Bairro
 	 * 
@@ -70,13 +63,13 @@ public class Util {
 		List<Parada> paradasProximasDaOrigem = getParadasProximas(origem, distanciaProximaEmMetros);
 		List<Parada> paradasProximasDoDestino = getParadasProximas(destino, distanciaProximaEmMetros);
 		
-		List<Linha> linhas = InthegraAPI.getLinhas();
+		HashMap<String,Linha> linhas = CacheManager.getLinhas();
 		HashMap<Parada, Integer> paradas = new HashMap<Parada, Integer>();
 		
 		Parada melhorParada = null;
 		int maiorQuantidade = 0;
 		
-		for (Linha linha : linhas) {
+		for (Linha linha : linhas.values()) {
 			List<Parada> paradasDaLinha = linha.getParadas();
 			if (!paradasDaLinha.isEmpty()) {
 				for (Parada paradaOrigem : paradasProximasDaOrigem) {
