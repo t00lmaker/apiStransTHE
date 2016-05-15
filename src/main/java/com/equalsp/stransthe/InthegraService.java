@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
 
-public class InthegraService {
+public class InthegraService implements InthegraAPI {
 
 	private static final Type LIST_PARADAS = new TypeToken<List<Parada>>() {}.getType();
 	private static final Type LIST_LINHAS = new TypeToken<List<Linha>>() {}.getType();
@@ -31,6 +31,7 @@ public class InthegraService {
 		this(new InthegraClient().setApiKey(key), new Credenciais(email, senha));
 	}
 
+	@Override
 	public void initialize() throws IOException {
 		updateToken();
 	}
@@ -42,27 +43,33 @@ public class InthegraService {
 		}
 	}
 
+	@Override
+	public List<Linha> getLinhas() throws IOException {
+		return getLinhas(null);
+	}
+
+	@Override
+	public List<Linha> getLinhas(String busca) throws IOException {
+		return client.get(getPathComBusca("/linhas", busca), LIST_LINHAS);
+	}
+
+	@Override
 	public List<Parada> getParadas() throws IOException {
 		return getParadas((String)null);
 	}
 
+	@Override
 	public List<Parada> getParadas(String busca) throws IOException {
 		return client.get(getPathComBusca("/paradas", busca), LIST_PARADAS);
 	}
 
+	@Override
 	public List<Parada> getParadas(Linha linha) throws IOException {
 		ParadaLinha pl = client.get(getPathComBusca("/paradasLinha", linha.getCodigoLinha()), ParadaLinha.class);
 		return pl.getParadas();
 	}
 
-	public List<Linha> getLinhas() throws IOException {
-		return getLinhas(null);
-	}
-
-	public List<Linha> getLinhas(String busca) throws IOException {
-		return client.get(getPathComBusca("/linhas", busca), LIST_LINHAS);
-	}
-
+	@Override
 	public List<Veiculo> getVeiculos() throws IOException {
 		List<Veiculo> v = new ArrayList<Veiculo>();
 		List<VeiculoLinha> linhas = client.get("/veiculos", LIST_VEICULOS_LINHAS);
@@ -72,6 +79,7 @@ public class InthegraService {
 		return v;
 	}
 
+	@Override
 	public List<Veiculo> getVeiculos(Linha linha) throws IOException {
 		VeiculoLinha vl = client.get(getPathComBusca("/veiculosLinha", linha.getCodigoLinha()), VeiculoLinha.class);
 		return vl.getLinha().getVeiculos();
