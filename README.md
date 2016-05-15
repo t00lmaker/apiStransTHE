@@ -72,4 +72,8 @@ List<Veiculo> veiculos2 = linha.getVeiculos();
 List<Parada> veiculos = linha.getParadas(); 
 ```
 
+# Licença de uso
+
+Essa biblioteca é distribuída sob a licença MIT, o que significa que você pode usar, modificar, distribuir e incluir os fontes ou a biblioteca compilada, inclusive em software de uso comercial, bastando manter uma cópia do arquivo de licença incluído nessa distribuição (license.txt).
+
 Autores: Luan Pontes e Erick Passos
