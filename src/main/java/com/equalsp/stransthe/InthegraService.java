@@ -31,9 +31,8 @@ public class InthegraService {
 		this(new InthegraClient().setApiKey(key), new Credenciais(email, senha));
 	}
 
-	public TokenInfo getToken() throws IOException {
+	public void initialize() throws IOException {
 		updateToken();
-		return token;
 	}
 
 	private void updateToken() throws IOException {
