@@ -90,6 +90,11 @@ class InthegraAgent {
 	ParadaLinha getParadasLinha(String linha) throws Exception {
 		updateToken();
 		HttpURLConnection connection = criarConnection("paradasLinha?busca=" + linha, "GET");
+		int response = connection.getResponseCode();
+		if (response == 400) {
+			return null;
+		}
+		
 		String responseJson = inputStreamToString(connection.getInputStream());
 		//System.out.println(responseJson);
 		ParadaLinha yourList = new Gson().fromJson(responseJson, ParadaLinha.class);

@@ -84,7 +84,8 @@ public class InthegraAPI {
 			throw new Exception("Chame init(email, senha, key) antes...");
 		}
 		ParadaLinha p = tokenManager.getParadasLinha(linha.getCodigoLinha());
-		return p.getParadas();
+		
+		return p == null ? new ArrayList<Parada>() : p.getParadas();
 	}
 
 	/**
