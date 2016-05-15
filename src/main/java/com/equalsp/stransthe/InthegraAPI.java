@@ -17,6 +17,8 @@ public interface InthegraAPI {
 
 	List<Parada> getParadas(Linha linha) throws IOException;
 
+	List<Linha> getLinhas(Parada parada) throws IOException;
+
 	List<Veiculo> getVeiculos() throws IOException;
 
 	List<Veiculo> getVeiculos(Linha linha) throws IOException;

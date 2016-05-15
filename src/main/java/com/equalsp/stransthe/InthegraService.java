@@ -46,7 +46,7 @@ public class InthegraService implements InthegraAPI {
 	@Override
 	public List<Linha> getLinhas() throws IOException {
 		initialize();
-		return getLinhas(null);
+		return getLinhas((String)null);
 	}
 
 	@Override
@@ -65,6 +65,11 @@ public class InthegraService implements InthegraAPI {
 	public List<Parada> getParadas(String busca) throws IOException {
 		initialize();
 		return client.get(getPathComBusca("/paradas", busca), LIST_PARADAS);
+	}
+
+	@Override
+	public List<Linha> getLinhas(Parada parada) throws IOException {
+		throw new UnsupportedOperationException("Metodo nao suportado pela API. Use a classe CachedInthegraService.");
 	}
 
 	@Override
