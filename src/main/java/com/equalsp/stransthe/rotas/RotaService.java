@@ -12,21 +12,31 @@ import com.equalsp.stransthe.Linha;
 import com.equalsp.stransthe.Localizacao;
 import com.equalsp.stransthe.Parada;
 
+/**
+ * 
+ * @author Erick Passos
+ *
+ */
 public class RotaService {
 
 	private InthegraAPI inthegraService;
+	
+	/*
+	 * API PUBLICA
+	 * construtor
+	 * busca de rotas (3 opções)
+	 * busca de paradas próximas
+	 */
 
 	public RotaService(InthegraAPI inthegraService) {
 		super();
 		this.inthegraService = inthegraService;
 	}
 
-	// obter paradas proximas de A e B, descobrir linhas que saem das proximas
-	// de a, até as proximas de B
 	public Set<Rota> getRotas(PontoDeInteresse a, PontoDeInteresse b, double distanciaPe) throws IOException {
-		List<Parada> origens = maisProximas(a, distanciaPe, 5);
+		List<Parada> origens = getParadasProximas(a, distanciaPe, 5);
 		System.out.println("paradas origem: " + origens.size());
-		List<Parada> destinos = maisProximas(b, distanciaPe, 5);
+		List<Parada> destinos = getParadasProximas(b, distanciaPe, 5);
 		System.out.println("paradas destino: " + origens.size());
 		Set<Rota> rotas = getRotas(origens, destinos);
 		for (Rota rota : rotas) {
@@ -57,6 +67,24 @@ public class RotaService {
 		}
 		return rotas;
 	}
+	
+	private List<Parada> getParadasProximas(Localizacao a, double distanciaMaxima, int quantidade) throws IOException {
+		List<Parada> proximas = new ArrayList<Parada>();
+		for (Parada p : getParadas()) {
+			if (a.getDistancia(p) <= distanciaMaxima) {
+				proximas.add(p);
+			}
+			if (proximas.size() >= quantidade)
+				break;
+		}
+		// Ordenar por proximidade a 'a'
+		Collections.sort(proximas, new ComparadorPorProximidade(a));
+		return proximas;
+	}
+	
+	/*
+	 * FIM DE API PÚBLICA
+	 */
 
 	private void AdicionarTrechosPedestre(Rota rota, PontoDeInteresse a, PontoDeInteresse b) {
 		Trecho inicial = new Trecho();
@@ -80,9 +108,7 @@ public class RotaService {
 		r.getTrechos().add(t);
 		return r;
 	}
-
-	// retornar a primeira parada da linha que é destino e ocorre após ter
-	// passado pela origem
+	
 	private Parada LinhaPassaApos(Linha linha, Parada origem, List<Parada> destinos) throws IOException {
 		List<Parada> paradasLinha = getParadas(linha);
 		boolean passouOrigem = false;
@@ -95,20 +121,6 @@ public class RotaService {
 			}
 		}
 		return null;
-	}
-
-	private List<Parada> maisProximas(Localizacao a, double distanciaMaxima, int quantidade) throws IOException {
-		List<Parada> proximas = new ArrayList<Parada>();
-		for (Parada p : getParadas()) {
-			if (a.getDistancia(p) <= distanciaMaxima) {
-				proximas.add(p);
-			}
-			if (proximas.size() >= quantidade)
-				break;
-		}
-		// Ordenar por proximidade a 'a'
-		Collections.sort(proximas, new ComparadorPorProximidade(a));
-		return proximas;
 	}
 
 	private List<Parada> getParadas() throws IOException {
