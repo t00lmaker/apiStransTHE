@@ -101,6 +101,12 @@ Uma rota a partir de pontos de interesse possui 3 trechos (um à pé até a prim
 
 ps.: (a classe Testes.java inclui mais exemplos de utilização).
 
+# SerializedInthegraService (file cache)
+
+A classe SerializedInthegraService herda de CachedInthegraService e utiliza serialização Json em arquivos locais da aplicação para não perder os dados em cache entre *runs* da aplicação. O funcionamento é exatamente igual às outras classes Service, apenas evitando o uso de rede para consultas a Paradas e Linhas.
+
+ps.: consultas a Veículos sempre usam a rede, porque os dados dos mesmos são atualizados de 30 em 30 segundos.
+
 # Licença de uso
 
 Essa biblioteca é distribuída sob a licença MIT, o que significa que você pode usar, modificar, distribuir e incluir os fontes ou a biblioteca compilada, inclusive em software de uso comercial, bastando manter uma cópia do arquivo de licença incluído nessa distribuição (license.txt).
