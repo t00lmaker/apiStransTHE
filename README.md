@@ -111,4 +111,4 @@ ps.: consultas a Veículos sempre usam a rede, porque os dados dos mesmos são a
 
 Essa biblioteca é distribuída sob a licença MIT, o que significa que você pode usar, modificar, distribuir e incluir os fontes ou a biblioteca compilada, inclusive em software de uso comercial, bastando manter uma cópia do arquivo de licença incluído nessa distribuição (license.txt).
 
-Autores: Luan Pontes, Erick Passos e Jonhnny Weslley
+Autores: Luan Pontes, Erick Passos, Jonhnny Weslley e Hugo Cordeiro
