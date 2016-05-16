@@ -7,11 +7,8 @@ import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,24 +16,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-public class CachedInthegraService implements InthegraAPI {
+public class SerializedInthegraService extends CachedInthegraService {
 
-	private static final int ITEM_NOT_FOUND = 130;
-
-	private final InthegraAPI delegate;
-	protected final long timeoutInMillis;
-	protected final ReentrantLock lock = new ReentrantLock();
-	protected long expireAt = 0;
-
-	protected Map<Linha, List<Parada>> cacheLinhaParadas = new HashMap<>();
-	protected Map<Parada, List<Linha>> cacheParadaLinhas = new HashMap<>();
-
-	public CachedInthegraService(InthegraAPI delegate, long tempoExpiracao, TimeUnit unit) {
-		if (delegate == null) {
-			throw new IllegalArgumentException("delegate não pode ser null");
-		}
-		this.delegate = delegate;
-		this.timeoutInMillis = unit.toMillis(tempoExpiracao);
+	public SerializedInthegraService(InthegraAPI delegate, long tempoExpiracao, TimeUnit unit) {
+		super(delegate, tempoExpiracao, unit);
 	}
 
 	@Override
@@ -54,90 +37,6 @@ public class CachedInthegraService implements InthegraAPI {
 				lock.unlock();
 			}
 		}
-	}
-
-	protected void refreshCache() throws IOException {
-		cacheLinhaParadas.clear();
-		cacheParadaLinhas.clear();
-
-		List<Linha> linhas = delegate.getLinhas();
-		List<Parada> paradas;
-		for (Linha linha : linhas) {
-			try {
-				paradas = delegate.getParadas(linha);
-				cacheLinhaParadas.put(linha, paradas);
-
-				for (Parada parada : paradas) {
-					List<Linha> linhasDaParada = cacheParadaLinhas.get(parada);
-					if (linhasDaParada == null) {
-						linhasDaParada = new ArrayList<>();
-						cacheParadaLinhas.put(parada, linhasDaParada);
-					}
-					linhasDaParada.add(linha);
-				}
-
-			} catch (InthegraException e) {
-				if (e.getErro().getCode() != ITEM_NOT_FOUND) {
-					throw e;
-				}
-			}
-		}
-	}
-
-	@Override
-	public List<Linha> getLinhas() throws IOException {
-		initialize();
-		return new ArrayList<>(cacheLinhaParadas.keySet());
-	}
-
-	@Override
-	public List<Linha> getLinhas(String busca) throws IOException {
-		List<Linha> linhas = new ArrayList<>();
-		for (Linha linha : getLinhas()) {
-			if (linha.getCodigoLinha().equals(busca) || linha.getDenomicao().contains(busca)) {
-				linhas.add(linha);
-			}
-		}
-		return linhas;
-	}
-
-	@Override
-	public List<Parada> getParadas() throws IOException {
-		initialize();
-		return new ArrayList<>(cacheParadaLinhas.keySet());
-	}
-
-	@Override
-	public List<Parada> getParadas(String busca) throws IOException {
-		List<Parada> paradas = new ArrayList<>();
-		for (Parada parada : getParadas()) {
-			if (parada.getCodigoParada().equals(busca) || parada.getDenomicao().contains(busca)) {
-				paradas.add(parada);
-			}
-		}
-		return paradas;
-	}
-
-	@Override
-	public List<Parada> getParadas(Linha linha) throws IOException {
-		initialize();
-		return cacheLinhaParadas.get(linha);
-	}
-
-	@Override
-	public List<Linha> getLinhas(Parada parada) throws IOException {
-		initialize();
-		return cacheParadaLinhas.get(parada);
-	}
-
-	@Override
-	public List<Veiculo> getVeiculos() throws IOException {
-		return delegate.getVeiculos();
-	}
-
-	@Override
-	public List<Veiculo> getVeiculos(Linha linha) throws IOException {
-		return delegate.getVeiculos(linha);
 	}
 	
 	private void saveCacheToFile() throws IOException {
@@ -163,6 +62,7 @@ public class CachedInthegraService implements InthegraAPI {
 			linhasParadasJsonArray.add(linhaParadaJsonObject);
 		}
 		cachedJsonObject.add("linhasParadas", linhasParadasJsonArray);
+		//cachedJsonObject.add("linhasParadas", gson.toJsonTree(cacheLinhaParadas));
 		
 		JsonArray paradasLinhasJsonArray = new JsonArray();
 		for (Parada parada : cacheParadaLinhas.keySet()) {
@@ -181,9 +81,10 @@ public class CachedInthegraService implements InthegraAPI {
 			paradasLinhasJsonArray.add(paradaLinhasJsonObject);
 		}
 		cachedJsonObject.add("paradasLinhas", paradasLinhasJsonArray);
+		//cachedJsonObject.add("paradasLinhas", gson.toJsonTree(cacheParadaLinhas));
 
 		String cacheJson = gson.toJson(cachedJsonObject);
-		Path path = Paths.get("src/main/resources/cachedInthegraService.json");
+		Path path = Paths.get("cachedInthegraService.json");
 		Files.deleteIfExists(path);
 		Files.createFile(path);
 		try (BufferedWriter writer = Files.newBufferedWriter(path)) {
@@ -192,15 +93,15 @@ public class CachedInthegraService implements InthegraAPI {
 	}
 	
 	private boolean loadFromFile() throws IOException {
-		Path path = Paths.get("src/main/resources/cachedInthegraService.json");
+		Path path = Paths.get("cachedInthegraService.json");
 		
 		if (Files.exists(path, LinkOption.NOFOLLOW_LINKS) ){
 			String fileContent = new String(Files.readAllBytes(path));
 			Gson gson = new GsonBuilder().create();
 			JsonObject cacheJson = gson.fromJson(fileContent, JsonObject.class);
-			long expire = cacheJson.get("expireAt").getAsLong();
+			expireAt = cacheJson.get("expireAt").getAsLong();
 			
-			if (System.currentTimeMillis() > expire) {
+			if (System.currentTimeMillis() > expireAt) {
 				return false;
 			} else {
 				cacheLinhaParadas.clear();
@@ -237,6 +138,7 @@ public class CachedInthegraService implements InthegraAPI {
 					}
 					cacheParadaLinhas.put(parada, linhasDaParada);
 				}
+				System.out.println("ok");
 				return true;
 			}
 		} else {
