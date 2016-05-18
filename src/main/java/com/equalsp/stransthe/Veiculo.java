@@ -2,9 +2,6 @@ package com.equalsp.stransthe;
 
 public class Veiculo extends Localizacao {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6368022552134294563L;
 
 	private String CodigoVeiculo;

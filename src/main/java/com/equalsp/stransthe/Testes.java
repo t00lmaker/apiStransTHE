@@ -12,9 +12,12 @@ import com.equalsp.stransthe.rotas.Trecho;
 public class Testes {
 
 	public static void main(String[] args) throws Exception {
-//		InthegraAPI service = new InthegraService("sua_key", "seu_email",  "sua_senha");
+		InthegraAPI service = new InthegraService("aa91935448534d519da1cda34d0b1ee4", "c2387331@trbvn.com", "c2387331@trbvn.com");
+		DesktopFileHanlder fileHanlder = new DesktopFileHanlder();
+		CachedInthegraService cachedService = new CachedInthegraService(service, fileHanlder, 1, TimeUnit.DAYS);
 
 		/*
+
 		List<Linha> linhas = service.getLinhas("FREI SERAFIM");
 		Linha linha = linhas.get(0);
 		System.out.println(linha.getDenomicao());
@@ -30,17 +33,16 @@ public class Testes {
 			System.out.println(parada.getCodigoParada() + ": " + parada.getDenomicao());
 		}*/
 
-//		CachedInthegraService cachedService = new CachedInthegraService(service, 1, TimeUnit.DAYS);
-//		List<Parada> paradasFreiSerafim1 = cachedService.getParadas("AV. FREI SERAFIM 1");
-//		for (Parada parada : paradasFreiSerafim1) {
-//			System.out.println(parada.getDenomicao());
-//		}
+		List<Parada> paradasFreiSerafim1 = cachedService.getParadas("AV. FREI SERAFIM 1");
+		for (Parada parada : paradasFreiSerafim1) {
+			System.out.println(parada.getDenomicao());
+		}
 
-//		Parada paradaFreiSerafim1 = paradasFreiSerafim1.get(0);
-//		System.out.println("Linhas da parada " + paradaFreiSerafim1);
-//		for (Linha l : cachedService.getLinhas(paradaFreiSerafim1)) {
-//			System.out.println(l.getDenomicao());
-//		}
+		Parada paradaFreiSerafim1 = paradasFreiSerafim1.get(0);
+		System.out.println("Linhas da parada " + paradaFreiSerafim1);
+		for (Linha l : cachedService.getLinhas(paradaFreiSerafim1)) {
+			System.out.println(l.getDenomicao());
+		}
 		
 //		RotaService rotaService = new RotaService(cachedService);
 //		PontoDeInteresse a = new PontoDeInteresse(-5.080375, -42.775798);
