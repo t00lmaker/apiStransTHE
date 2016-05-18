@@ -1,6 +1,10 @@
 package com.equalsp.stransthe;
 
-public class Linha {
+import java.io.Serializable;
+
+public class Linha implements Serializable {
+
+	private static final long serialVersionUID = 3912271062432682524L;
 
 	private String CodigoLinha;
 
@@ -64,6 +68,11 @@ public class Linha {
 	@Override
 	public int hashCode() {
 		return CodigoLinha == null ? 0 : CodigoLinha.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return getCodigoLinha() + "- " + getDenomicao();
 	}
 
 }

@@ -1,11 +1,6 @@
 package com.equalsp.stransthe;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -18,8 +13,8 @@ import com.google.gson.JsonObject;
 
 public class SerializedInthegraService extends CachedInthegraService {
 
-	public SerializedInthegraService(InthegraAPI delegate, long tempoExpiracao, TimeUnit unit) {
-		super(delegate, tempoExpiracao, unit);
+	public SerializedInthegraService(InthegraAPI delegate, CachedServiceFileHander fileHandler, long tempoExpiracao, TimeUnit unit) {
+		super(delegate, fileHandler, tempoExpiracao, unit);
 	}
 
 	@Override
@@ -84,19 +79,12 @@ public class SerializedInthegraService extends CachedInthegraService {
 		//cachedJsonObject.add("paradasLinhas", gson.toJsonTree(cacheParadaLinhas));
 
 		String cacheJson = gson.toJson(cachedJsonObject);
-		Path path = Paths.get("cachedInthegraService.json");
-		Files.deleteIfExists(path);
-		Files.createFile(path);
-		try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-			writer.write(cacheJson);
-		}
+		fileHandler.saveCacheFile(cacheJson);
 	}
 	
 	private boolean loadFromFile() throws IOException {
-		Path path = Paths.get("cachedInthegraService.json");
-		
-		if (Files.exists(path, LinkOption.NOFOLLOW_LINKS) ){
-			String fileContent = new String(Files.readAllBytes(path));
+		String fileContent = fileHandler.loadCacheFile();
+		if (!fileContent.isEmpty()) {
 			Gson gson = new GsonBuilder().create();
 			JsonObject cacheJson = gson.fromJson(fileContent, JsonObject.class);
 			expireAt = cacheJson.get("expireAt").getAsLong();

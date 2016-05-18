@@ -1,6 +1,10 @@
 package com.equalsp.stransthe;
 
-public class Parada extends Localizacao {
+import java.io.Serializable;
+
+public class Parada extends Localizacao implements Serializable {
+
+	private static final long serialVersionUID = 1779630573477740939L;
 
 	private String CodigoParada;
 

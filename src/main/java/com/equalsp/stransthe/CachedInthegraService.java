@@ -1,11 +1,6 @@
 package com.equalsp.stransthe;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.LinkOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +19,7 @@ public class CachedInthegraService implements InthegraAPI {
 	private static final int ITEM_NOT_FOUND = 130;
 
 	private final InthegraAPI delegate;
+	protected CachedServiceFileHander fileHandler;
 	protected final long timeoutInMillis;
 	protected final ReentrantLock lock = new ReentrantLock();
 	protected long expireAt = 0;
@@ -31,11 +27,16 @@ public class CachedInthegraService implements InthegraAPI {
 	protected Map<Linha, List<Parada>> cacheLinhaParadas = new HashMap<>();
 	protected Map<Parada, List<Linha>> cacheParadaLinhas = new HashMap<>();
 
-	public CachedInthegraService(InthegraAPI delegate, long tempoExpiracao, TimeUnit unit) {
+	public CachedInthegraService(InthegraAPI delegate, CachedServiceFileHander fileHandler, long tempoExpiracao, TimeUnit unit) {
 		if (delegate == null) {
 			throw new IllegalArgumentException("delegate não pode ser null");
 		}
+		if (fileHandler == null) {
+			throw new IllegalArgumentException("fileHandler não pode ser null");
+		}
+		this.fileHandler = fileHandler;
 		this.delegate = delegate;
+		this.fileHandler = fileHandler;
 		this.timeoutInMillis = unit.toMillis(tempoExpiracao);
 	}
 
@@ -44,11 +45,11 @@ public class CachedInthegraService implements InthegraAPI {
 		if (System.currentTimeMillis() > expireAt) {
 			lock.lock();
 			try {
-				boolean successfullyLoaded = loadFromFile();
+				boolean successfullyLoaded = loadCacheFromFile();
 				if (!successfullyLoaded) {
 					refreshCache();
 					expireAt = System.currentTimeMillis() + timeoutInMillis;
-					saveCacheToFile();
+					saveCacheToFile(expireAt, cacheLinhaParadas, cacheParadaLinhas);
 				}
 			} finally {
 				lock.unlock();
@@ -140,62 +141,10 @@ public class CachedInthegraService implements InthegraAPI {
 		return delegate.getVeiculos(linha);
 	}
 	
-	private void saveCacheToFile() throws IOException {
-		Gson gson = new GsonBuilder().create();
-		JsonObject cachedJsonObject = new JsonObject();
-		
-		cachedJsonObject.addProperty("expireAt", gson.toJson(expireAt));
-		
-		JsonArray linhasParadasJsonArray = new JsonArray();
-		for (Linha linha : cacheLinhaParadas.keySet()) {
-			JsonObject linhaParadaJsonObject = new JsonObject();
-			String linhaJson = gson.toJson(linha);
-			
-			List<Parada> paradas = cacheLinhaParadas.get(linha);
-			JsonArray paradasJsonArray = new JsonArray();
-			for (Parada parada : paradas) {
-				String paradaJson = gson.toJson(parada);
-				paradasJsonArray.add(paradaJson);
-			}
-			linhaParadaJsonObject.addProperty("linha", linhaJson);
-			linhaParadaJsonObject.add("paradas", paradasJsonArray);
-			
-			linhasParadasJsonArray.add(linhaParadaJsonObject);
-		}
-		cachedJsonObject.add("linhasParadas", linhasParadasJsonArray);
-		
-		JsonArray paradasLinhasJsonArray = new JsonArray();
-		for (Parada parada : cacheParadaLinhas.keySet()) {
-			JsonObject paradaLinhasJsonObject = new JsonObject();
-			String paradaJson = gson.toJson(parada);
-			
-			List<Linha> linhas = cacheParadaLinhas.get(parada);
-			JsonArray linhasJsonArray = new JsonArray();
-			for (Linha linha : linhas) {
-				String linhaJson = gson.toJson(linha);
-				linhasJsonArray.add(linhaJson);
-			}
-			paradaLinhasJsonObject.addProperty("parada", paradaJson);
-			paradaLinhasJsonObject.add("linhas", linhasJsonArray);
-			
-			paradasLinhasJsonArray.add(paradaLinhasJsonObject);
-		}
-		cachedJsonObject.add("paradasLinhas", paradasLinhasJsonArray);
 
-		String cacheJson = gson.toJson(cachedJsonObject);
-		Path path = Paths.get("src/main/resources/cachedInthegraService.json");
-		Files.deleteIfExists(path);
-		Files.createFile(path);
-		try (BufferedWriter writer = Files.newBufferedWriter(path)) {
-			writer.write(cacheJson);
-		}
-	}
-	
-	private boolean loadFromFile() throws IOException {
-		Path path = Paths.get("src/main/resources/cachedInthegraService.json");
-		
-		if (Files.exists(path, LinkOption.NOFOLLOW_LINKS) ){
-			String fileContent = new String(Files.readAllBytes(path));
+	private boolean loadCacheFromFile() throws IOException {
+		String fileContent = fileHandler.loadCacheFile();
+		if (!fileContent.isEmpty()) {
 			Gson gson = new GsonBuilder().create();
 			JsonObject cacheJson = gson.fromJson(fileContent, JsonObject.class);
 			long expire = cacheJson.get("expireAt").getAsLong();
@@ -243,4 +192,52 @@ public class CachedInthegraService implements InthegraAPI {
 			return false;
 		}
 	}
+
+	private void saveCacheToFile(Long expireAt, Map<Linha, List<Parada>> cacheLinhaParadas, Map<Parada, List<Linha>> cacheParadaLinhas) throws IOException {
+		Gson gson = new GsonBuilder().create();
+		JsonObject cachedJsonObject = new JsonObject();
+		
+		cachedJsonObject.addProperty("expireAt", gson.toJson(expireAt));
+		
+		JsonArray linhasParadasJsonArray = new JsonArray();
+		for (Linha linha : cacheLinhaParadas.keySet()) {
+			JsonObject linhaParadaJsonObject = new JsonObject();
+			String linhaJson = gson.toJson(linha);
+			
+			List<Parada> paradas = cacheLinhaParadas.get(linha);
+			JsonArray paradasJsonArray = new JsonArray();
+			for (Parada parada : paradas) {
+				String paradaJson = gson.toJson(parada);
+				paradasJsonArray.add(paradaJson);
+			}
+			linhaParadaJsonObject.addProperty("linha", linhaJson);
+			linhaParadaJsonObject.add("paradas", paradasJsonArray);
+			
+			linhasParadasJsonArray.add(linhaParadaJsonObject);
+		}
+		cachedJsonObject.add("linhasParadas", linhasParadasJsonArray);
+		
+		JsonArray paradasLinhasJsonArray = new JsonArray();
+		for (Parada parada : cacheParadaLinhas.keySet()) {
+			JsonObject paradaLinhasJsonObject = new JsonObject();
+			String paradaJson = gson.toJson(parada);
+			
+			List<Linha> linhas = cacheParadaLinhas.get(parada);
+			JsonArray linhasJsonArray = new JsonArray();
+			for (Linha linha : linhas) {
+				String linhaJson = gson.toJson(linha);
+				linhasJsonArray.add(linhaJson);
+			}
+			paradaLinhasJsonObject.addProperty("parada", paradaJson);
+			paradaLinhasJsonObject.add("linhas", linhasJsonArray);
+			
+			paradasLinhasJsonArray.add(paradaLinhasJsonObject);
+		}
+		cachedJsonObject.add("paradasLinhas", paradasLinhasJsonArray);
+
+		String cacheJson = gson.toJson(cachedJsonObject);
+		
+		fileHandler.saveCacheFile(cacheJson);
+	}
+
 }
