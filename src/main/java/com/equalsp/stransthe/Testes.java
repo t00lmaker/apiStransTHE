@@ -43,6 +43,17 @@ public class Testes {
 		for (Linha l : cachedService.getLinhas(paradaFreiSerafim1)) {
 			System.out.println(l.getDenomicao());
 		}
+//		CachedInthegraService cachedService = new CachedInthegraService(service, 1, TimeUnit.DAYS);
+//		List<Parada> paradasFreiSerafim1 = cachedService.getParadas("AV. FREI SERAFIM 1");
+//		for (Parada parada : paradasFreiSerafim1) {
+//			System.out.println(parada.getDenomicao());
+//		}
+
+//		Parada paradaFreiSerafim1 = paradasFreiSerafim1.get(0);
+//		System.out.println("Linhas da parada " + paradaFreiSerafim1);
+//		for (Linha l : cachedService.getLinhas(paradaFreiSerafim1)) {
+//			System.out.println(l.getDenomicao());
+//		}
 		
 //		RotaService rotaService = new RotaService(cachedService);
 //		PontoDeInteresse a = new PontoDeInteresse(-5.080375, -42.775798);

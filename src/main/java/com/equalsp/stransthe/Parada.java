@@ -6,8 +6,6 @@ public class Parada extends Localizacao implements Serializable {
 
 	private static final long serialVersionUID = 1779630573477740939L;
 
-	private static final long serialVersionUID = 62474138535072904L;
-
 	private String CodigoParada;
 
 	private String Denomicao;

@@ -24,7 +24,6 @@ public class CachedInthegraService implements InthegraAPI {
 	protected final ReentrantLock lock = new ReentrantLock();
 	protected long expireAt = 0;
 
-
 	protected Map<Linha, List<Parada>> cacheLinhaParadas = new HashMap<>();
 	protected Map<Parada, List<Linha>> cacheParadaLinhas = new HashMap<>();
 
@@ -142,6 +141,7 @@ public class CachedInthegraService implements InthegraAPI {
 		return delegate.getVeiculos(linha);
 	}
 	
+
 	private boolean loadCacheFromFile() throws IOException {
 		String fileContent = fileHandler.loadCacheFile();
 		if (!fileContent.isEmpty()) {
@@ -194,7 +194,6 @@ public class CachedInthegraService implements InthegraAPI {
 	}
 
 	private void saveCacheToFile(Long expireAt, Map<Linha, List<Parada>> cacheLinhaParadas, Map<Parada, List<Linha>> cacheParadaLinhas) throws IOException {
-
 		Gson gson = new GsonBuilder().create();
 		JsonObject cachedJsonObject = new JsonObject();
 		
