@@ -1,6 +1,10 @@
 package com.equalsp.stransthe;
 
-public abstract class Localizacao {
+import java.io.Serializable;
+
+public abstract class Localizacao implements Serializable {
+
+	private static final long serialVersionUID = 8714364740479503115L;
 
 	private double Lat;
 
