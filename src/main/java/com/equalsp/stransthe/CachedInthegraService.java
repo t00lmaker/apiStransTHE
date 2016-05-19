@@ -45,10 +45,10 @@ public class CachedInthegraService implements InthegraAPI {
 		if (System.currentTimeMillis() > expireAt) {
 			lock.lock();
 			try {
+				expireAt = System.currentTimeMillis() + timeoutInMillis;
 				boolean successfullyLoaded = loadCacheFromFile();
 				if (!successfullyLoaded) {
 					refreshCache();
-					expireAt = System.currentTimeMillis() + timeoutInMillis;
 					saveCacheToFile(expireAt, cacheLinhaParadas, cacheParadaLinhas);
 				}
 			} finally {

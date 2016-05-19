@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.equalsp.stransthe.InthegraAPI;
+import com.equalsp.stransthe.CachedInthegraService;
 import com.equalsp.stransthe.Linha;
 import com.equalsp.stransthe.Localizacao;
 import com.equalsp.stransthe.Parada;
@@ -19,7 +19,7 @@ import com.equalsp.stransthe.Parada;
  */
 public class RotaService {
 
-	private InthegraAPI inthegraService;
+	private CachedInthegraService cachedService;
 	
 	/*
 	 * API PUBLICA
@@ -28,16 +28,16 @@ public class RotaService {
 	 * busca de paradas próximas
 	 */
 
-	public RotaService(InthegraAPI inthegraService) {
+	public RotaService(CachedInthegraService cachedService) {
 		super();
-		this.inthegraService = inthegraService;
+		this.cachedService = cachedService;
 	}
 
 	public Set<Rota> getRotas(PontoDeInteresse a, PontoDeInteresse b, double distanciaPe) throws IOException {
 		List<Parada> origens = getParadasProximas(a, distanciaPe, 5);
-		System.out.println("paradas origem: " + origens.size());
+//		System.out.println("paradas origem: " + origens.size());
 		List<Parada> destinos = getParadasProximas(b, distanciaPe, 5);
-		System.out.println("paradas destino: " + origens.size());
+//		System.out.println("paradas destino: " + origens.size());
 		Set<Rota> rotas = getRotas(origens, destinos);
 		for (Rota rota : rotas) {
 			AdicionarTrechosPedestre(rota, a, b);
@@ -124,15 +124,15 @@ public class RotaService {
 	}
 
 	private List<Parada> getParadas() throws IOException {
-		return inthegraService.getParadas();
+		return cachedService.getParadas();
 	}
 
 	private List<Parada> getParadas(Linha l) throws IOException {
-		return inthegraService.getParadas(l);
+		return cachedService.getParadas(l);
 	}
 
 	private List<Linha> getLinhas(Parada p) throws IOException {
-		return inthegraService.getLinhas(p);
+		return cachedService.getLinhas(p);
 	}
 
 }

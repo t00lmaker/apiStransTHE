@@ -1,9 +1,13 @@
 package com.equalsp.stransthe.rotas;
 
+import java.io.Serializable;
+
 import com.equalsp.stransthe.Linha;
 import com.equalsp.stransthe.Localizacao;
 
-public class Trecho {
+public class Trecho implements Serializable {
+
+	private static final long serialVersionUID = 8101310540608896475L;
 
 	private Linha linha;
 
