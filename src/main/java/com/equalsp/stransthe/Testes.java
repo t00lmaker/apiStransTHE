@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import com.equalsp.stransthe.rotas.PontoDeInteresse;
 import com.equalsp.stransthe.rotas.Rota;
 import com.equalsp.stransthe.rotas.RotaService;
+import com.equalsp.stransthe.rotas.Trecho;
 
 public class Testes {
 
@@ -22,8 +23,14 @@ public class Testes {
 		Set<Rota> rotas = rotasService.getRotas(casa, ifpi, distanciaPe);
 		System.out.println(rotas.size());
 		for (Rota rota : rotas) {
-			System.out.println(rota.toString());
-		
+			List<Trecho> trechos = rota.getTrechos();
+			System.out.println(rota + " - " + trechos.size());
+	
+			for (Trecho trecho : trechos) {
+				System.out.println("\tTrecho " + trecho.getLinha());
+				System.out.println("\t\t" + trecho.getOrigem().getLat() + ", " + trecho.getOrigem().getLong());
+				System.out.println("\t\t" + trecho.getDestino().getLat() + ", " + trecho.getDestino().getLong());
+			}
 		}
 		System.out.println(rotas.size());
 		/*

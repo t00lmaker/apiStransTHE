@@ -72,7 +72,7 @@ public class Linha implements Serializable {
 	
 	@Override
 	public String toString() {
-		return getCodigoLinha() + "- " + getDenomicao();
+		return getCodigoLinha() + " - " + getDenomicao();
 	}
 
 }

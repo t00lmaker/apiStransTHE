@@ -1,9 +1,12 @@
 package com.equalsp.stransthe.rotas;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import com.equalsp.stransthe.Linha;
 
 public class Rota implements Serializable, Comparable<Rota> {
 
@@ -40,15 +43,19 @@ public class Rota implements Serializable, Comparable<Rota> {
 
 	@Override
 	public String toString() {
-		DecimalFormat df = new DecimalFormat("#.00"); 
 		StringBuilder builder = new StringBuilder();
+		Set<Linha> linhasDoTrecho = new HashSet<>();
+		
 		for (Trecho trecho : trechos) {
 			if (trecho.getLinha() != null) {
-				builder.append("Linha: " + trecho.getLinha().getCodigoLinha() + " ");	
+				linhasDoTrecho.add(trecho.getLinha());	
 			}
 		}
-		builder.append("- Distância inicial: " + df.format(getTrechos().get(0).getDistancia()) + "m");
-		
+		for (Linha linha : linhasDoTrecho) {
+			builder.append(linha.toString() + " / ");
+		}
+		builder.delete(builder.lastIndexOf("/")-1, builder.length());
+
 		return builder.toString();
 	}
 }

@@ -35,9 +35,7 @@ public class RotaService {
 
 	public Set<Rota> getRotas(PontoDeInteresse a, PontoDeInteresse b, double distanciaPe) throws IOException {
 		List<Parada> origens = getParadasProximas(a, distanciaPe, 5);
-//		System.out.println("paradas origem: " + origens.size());
 		List<Parada> destinos = getParadasProximas(b, distanciaPe, 5);
-//		System.out.println("paradas destino: " + origens.size());
 		Set<Rota> rotas = getRotas(origens, destinos);
 		for (Rota rota : rotas) {
 			AdicionarTrechosPedestre(rota, a, b);
@@ -55,13 +53,26 @@ public class RotaService {
 
 	public Set<Rota> getRotas(List<Parada> origens, List<Parada> destinos) throws IOException {
 		Set<Rota> rotas = new TreeSet<Rota>();
+		Parada ultimaParada;
 		for (Parada origem : origens) {
 			List<Linha> linhasOrigem = getLinhas(origem);
-			//System.out.println("linhas da parada origem: " + linhasOrigem.size());
 			for (Linha linha : linhasOrigem) {
 				Parada destino = LinhaPassaApos(linha, origem, destinos);
 				if (destino != null) {
-					rotas.add(criaRota(linha, origem, destino));
+					Rota rota = new Rota();
+					List<Parada> proximasParadas = ParadasDaLinhaAteDestino(linha, origem, destinos);
+					ultimaParada = origem;
+					for (Parada parada : proximasParadas) {
+						if (ultimaParada != origem) {
+							Trecho trecho = new Trecho();
+							trecho.setOrigem(ultimaParada);
+							trecho.setDestino(parada);
+							trecho.setLinha(linha);
+							rota.getTrechos().add(trecho);							
+						}
+						ultimaParada = parada;
+					}
+					rotas.add(rota);
 				}
 			}
 		}
@@ -88,17 +99,19 @@ public class RotaService {
 
 	private void AdicionarTrechosPedestre(Rota rota, PontoDeInteresse a, PontoDeInteresse b) {
 		Trecho inicial = new Trecho();
+		List<Trecho> trechos = rota.getTrechos();
 		inicial.setOrigem(a);
-		inicial.setDestino(rota.getTrechos().get(0).getOrigem());
+		inicial.setDestino(trechos.get(0).getOrigem());
 
 		Trecho f = new Trecho();
+		f.setOrigem(trechos.get(trechos.size()-1).getOrigem());
 		f.setDestino(b);
-		f.setOrigem(rota.getTrechos().get(0).getOrigem());
 
-		rota.getTrechos().add(0, inicial);
-		rota.getTrechos().add(f);
+		trechos.add(0, inicial);
+		trechos.add(f);
 	}
 
+	@SuppressWarnings("unused")
 	private Rota criaRota(Linha linha, Parada origem, Parada destino) {
 		Rota r = new Rota();
 		Trecho t = new Trecho();
@@ -121,6 +134,31 @@ public class RotaService {
 			}
 		}
 		return null;
+	}
+	
+	private List<Parada> ParadasDaLinhaAteDestino(Linha linha, Parada origem, List<Parada> destinos) throws IOException {
+		List<Parada> paradasLinha = getParadas(linha);
+		List<Parada> proximasParadas = new ArrayList<>();
+		boolean passouOrigem = false;
+		boolean passouDestino = false;
+		
+		for (Parada parada : paradasLinha) {
+			if (parada.equals(origem)) {
+				passouOrigem = true;
+			}
+			
+			if (destinos.contains(parada)){
+				proximasParadas.add(parada);
+				passouDestino = true;
+			}
+			
+			if (passouOrigem && !passouDestino) {
+				proximasParadas.add(parada);
+			}
+		}
+		
+
+		return proximasParadas;
 	}
 
 	private List<Parada> getParadas() throws IOException {
