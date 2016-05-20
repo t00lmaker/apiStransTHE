@@ -5,6 +5,7 @@ import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -210,6 +211,7 @@ public class InthegraClient {
 		case HTTP_BAD_REQUEST:
 		case HTTP_UNAUTHORIZED:
 		case HTTP_FORBIDDEN:
+		case HTTP_NOT_FOUND:
 			return true;
 		default:
 			return false;
