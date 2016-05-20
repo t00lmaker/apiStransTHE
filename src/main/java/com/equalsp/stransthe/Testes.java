@@ -16,6 +16,23 @@ public class Testes {
 		DesktopFileHanlder fileHanlder = new DesktopFileHanlder();
 		CachedInthegraService cachedService = new CachedInthegraService(service, fileHanlder, 1, TimeUnit.DAYS);
 
+		RotaService rotasService = new RotaService(cachedService);
+		PontoDeInteresse casa = new PontoDeInteresse(-5.069581, -42.759898);
+		PontoDeInteresse ifpi = new PontoDeInteresse(-5.089245, -42.809680);
+		double distanciaPe = 250;
+		Set<Rota> rotas = rotasService.getRotas(casa, ifpi, distanciaPe);
+		System.out.println(rotas.size());
+		for (Rota rota : rotas) {
+			List<Trecho> trechos = rota.getTrechos();
+			System.out.println(rota + " - " + trechos.size());
+	
+			for (Trecho trecho : trechos) {
+				System.out.println("\tTrecho " + trecho.getLinha());
+				System.out.println("\t\t" + trecho.getOrigem().getLat() + ", " + trecho.getOrigem().getLong());
+				System.out.println("\t\t" + trecho.getDestino().getLat() + ", " + trecho.getDestino().getLong());
+			}
+		}
+		System.out.println(rotas.size());
 		/*
 
 		List<Linha> linhas = service.getLinhas("FREI SERAFIM");
